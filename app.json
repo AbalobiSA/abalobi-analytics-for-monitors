@@ -1,0 +1,7 @@
+{
+    "name": "loginapp",
+    "description": "A simple Ionic app for Heroku",
+    "repository": "https://github.com/saimon24/devdactic-tinderstyle",
+    "logo": "http://pathToYourLogo.png",
+    "keywords": ["ionic", "jj", "heroku"]
+}
