@@ -1,0 +1,9 @@
+<ion-view title="Chart 3" id="chart3" class=" ">
+    <ion-content padding="true" class="has-header">
+        <ion-list ng-repeat="Row in data.subrow track by $index">
+            <div ng-repeat="(key, value) in Row">
+            <ion-item class=""> <strong> {{key}} : </strong> {{value}}</ion-item>
+        </div>
+        </ion-list>
+    </ion-content>
+</ion-view>
