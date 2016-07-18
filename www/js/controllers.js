@@ -17,8 +17,8 @@ angular.module('app.controllers', [])
 
     $http({
        method: 'GET',
-       url: 'https://abalobi-monitor.herokuapp.com/api/get',
-       params : {"id" : ""}
+       url: 'https://test-abalobi-monitor.herokuapp.com/api/get',
+       params : {"id" : "query_landing_site_list"}
 
    }).success(function(data) {
 
@@ -43,8 +43,8 @@ angular.module('app.controllers', [])
 
     $http({
        method: 'GET',
-       url: 'https://abalobi-monitor.herokuapp.com/api/get',
-       //params : {"id" : "query_landing_site_list"}
+       url: 'https://test-abalobi-monitor.herokuapp.com/api/get',
+       params : {"id" : "query_landing_site_list"}
 
     }).success(function(data) {
 
@@ -67,7 +67,7 @@ angular.module('app.controllers', [])
 
     $http({
        method: 'GET',
-       url: 'https://abalobi-monitor.herokuapp.com/api/get',
+       url: 'https://test-abalobi-monitor.herokuapp.com/api/get',
        //params : {"id" : "query_samples"}
 
     }).success(function(data) {
