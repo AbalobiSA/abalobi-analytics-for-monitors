@@ -17,8 +17,8 @@ angular.module('app.controllers', [])
 
     $http({
        method: 'GET',
-       url: 'https://test-abalobi-monitor.herokuapp.com/api/get',
-       params : {"id" : "query_landing_site_list"}
+       url: 'https://test-abalobi-monitor.herokuapp.com/api/get'
+     
 
    }).success(function(data) {
 
@@ -68,7 +68,7 @@ angular.module('app.controllers', [])
     $http({
        method: 'GET',
        url: 'https://test-abalobi-monitor.herokuapp.com/api/get',
-       //params : {"id" : "query_samples"}
+       params : {"id" : "query_samples"}
 
     }).success(function(data) {
 
