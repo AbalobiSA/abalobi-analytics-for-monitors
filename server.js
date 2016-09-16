@@ -102,6 +102,7 @@ app.get('/api/get', function(req, res){
 
 
             console.log(rows);
+            console.log("######################## returning rows");
             res.json(rows)
         })
 
