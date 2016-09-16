@@ -1,6 +1,5 @@
 var API_LIVE_URL = "";
-var PORT = process.env.PORT || 5001
-var API_DEV_URL = "http://localhost:"+PORT+"/api/get/";
+var API_DEV_URL = "http://localhost:5001/api/get/";
 var API_URL = API_DEV_URL;
 angular.module('monitorData')
     .factory('MonitorResource', ['$resource',
