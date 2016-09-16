@@ -10,6 +10,7 @@ var asd = function HelloController($scope, $element, $attrs, MonitorResource) {
     var calculationSelectionKeys = ["num_kg__c", "num_items__c"]
 
     ctrl.$onInit = function() {
+        console.log("requesting data");
         MonitorResource.query({queryType: "total_species_weight_by_month"})
         .$promise.then(handleCatchResponse);
 
@@ -62,6 +63,7 @@ var asd = function HelloController($scope, $element, $attrs, MonitorResource) {
 
     function handleCatchResponse(data) {
         console.log("@@@@ catch data received");
+        console.log(data);
         responseData = data;
 
         var monthGroupObs = Rx.Observable.from(data)
