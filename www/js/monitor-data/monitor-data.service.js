@@ -1,5 +1,5 @@
 var API_LIVE_URL = "";
-var API_DEV_URL = "http://localhost:5001/api/get/";
+var API_DEV_URL = "http://localhost:42957/api/get/";
 var API_URL = API_DEV_URL;
 angular.module('monitorData')
     .factory('MonitorResource', ['$resource',
