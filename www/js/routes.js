@@ -22,8 +22,7 @@ angular.module('app.routes', [])
         url: '/chart_1',
         views: {
             'side-menu21': {
-                templateUrl: 'templates/chart_1.html',
-                controller: 'Chart1Ctrl'
+                templateUrl: 'templates/chart_1.html'
             }
         }
     })
@@ -32,8 +31,7 @@ angular.module('app.routes', [])
         url: '/chart_2',
         views: {
             'side-menu21': {
-                templateUrl: 'templates/chart_2.html',
-                controller: 'Chart2Ctrl'
+                templateUrl: 'templates/chart_2.html'
             }
         }
     })
@@ -44,8 +42,34 @@ angular.module('app.routes', [])
         url: '/chart_3',
         views: {
             'side-menu21': {
-                templateUrl: 'templates/chart_3.html',
-                controller: 'Chart3Ctrl'
+                templateUrl: 'templates/chart_3.html'
+            }
+        }
+    })
+
+    .state('menu.chart_4', {
+        url: '/chart_4',
+        views: {
+            'side-menu21': {
+                templateUrl: 'templates/chart_4.html'
+            }
+        }
+    })
+
+    .state('menu.chart_5', {
+        url: '/chart_5',
+        views: {
+            'side-menu21': {
+                templateUrl: 'templates/chart_5.html'
+            }
+        }
+    })
+
+    .state('menu.chart_6', {
+        url: '/chart_6',
+        views: {
+            'side-menu21': {
+                templateUrl: 'templates/chart_6.html'
             }
         }
     })

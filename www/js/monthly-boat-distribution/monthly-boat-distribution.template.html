@@ -1,0 +1,14 @@
+<div>
+    <div class="list">
+      <label class="item item-input item-select">
+        <div class="input-label">
+          Select Loaction:
+        </div>
+        <select ng-options="location as location for location in $ctrl.locations"
+                    ng-model="selection" ng-change="$ctrl.change(selection)"></select>
+      </label>
+    </div>
+    <div class = " ">
+        <stacked-bar-chart data="$ctrl.data" xtitle="$ctrl.xTitle" ytitle="$ctrl.yTitle"></stacked-bar-chart>
+    </div>
+</div>

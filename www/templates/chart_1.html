@@ -1,9 +1,6 @@
-<ion-view title="Chart 1" id="chart1" class=" ">
+<ion-view title="Total Species Catch by Month" id="chart1" class=" ">
     <ion-content padding="true" class="has-header">
-        <ion-list ng-repeat="Row in data.subrow track by $index">
-            <div ng-repeat="(key, value) in Row">
-            <ion-item class=""> <strong> {{key}} : </strong> {{value}}</ion-item>
-        </div>
-        </ion-list>
+        <monthly-catch-species-data></monthly-catch-species-data>
+        <!-- <bar-chart></bar-chart> -->
     </ion-content>
 </ion-view>

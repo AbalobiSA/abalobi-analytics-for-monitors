@@ -1,13 +1,57 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="app">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
 
-    
-    
-    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="lib/rxjs/dist/rx.all.js"></script>
+
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/d3/d3.js"></script>
+    <script src="lib/angular-animate/angular-animate.js"></script>
+    <script src="lib/angular-sanitize/angular-sanitize.js"></script>
+    <script src="lib/angular-resource/angular-resource.js"></script>
+    <script src="lib/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="lib/ionic/js/ionic.js"></script>
+    <script src="lib/ionic/js/ionic-angular.js"></script>
+
+    <script src="js/app.js"></script>
+    <script src="js/bar-chart/bar-chart.module.js"></script>
+    <script src="js/bar-chart/bar-chart.component.js"></script>
+
+    <script src="js/stacked-bar-chart/stacked-bar-chart.module.js"></script>
+    <script src="js/stacked-bar-chart/stacked-bar-chart.component.js"></script>
+
+    <script src="js/monitor-data/monitor-data.module.js"></script>
+    <script src="js/monitor-data/monitor-data.service.js"></script>
+
+    <script src="js/monthly-catch-species/monthly-catch-species.module.js"></script>
+    <script src="js/monthly-catch-species/monthly-catch-species.component.js"></script>
+
+    <script src="js/monthly-catch-species-by-boat-type/monthly-catch-species-by-boat-type.module.js"></script>
+    <script src="js/monthly-catch-species-by-boat-type/monthly-catch-species-by-boat-type.component.js"></script>
+
+    <script src="js/monthly-boat-distribution/monthly-boat-distribution.module.js"></script>
+    <script src="js/monthly-boat-distribution/monthly-boat-distribution.component.js"></script>
+
+    <script src="js/double-sided-toggle/double-sided-toggle.module.js"></script>
+    <script src="js/double-sided-toggle/double-sided-toggle.component.js"></script>
+
+    <script src="js/submissions_by_month_by_location/submissions_by_month_by_location.module.js"></script>
+    <script src="js/submissions_by_month_by_location/submissions_by_month_by_location.component.js"></script>
+
+    <script src="js/catch-species-by-location/catch-species-by-location.module.js"></script>
+    <script src="js/catch-species-by-location/catch-species-by-location.component.js"></script>
+
+    <script src="js/sample-averages-by-location/sample-averages-by-location.module.js"></script>
+    <script src="js/sample-averages-by-location/sample-averages-by-location.component.js"></script>
+
+    <script src="js/controllers.js"></script>
+    <script src="js/routes.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/directives.js"></script>
+
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
@@ -16,16 +60,17 @@
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
 
-    
+
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    
+    <link href="css/main.css" rel="stylesheet">
+
 
     <style type="text/css">
       .platform-ios .manual-ios-statusbar-padding{
         padding-top:20px;
       }
       .manual-remove-top-padding{
-        padding-top:0px; 
+        padding-top:0px;
       }
       .manual-remove-top-padding .scroll{
         padding-top:0px !important;
@@ -41,18 +86,13 @@
       }
     </style>
 
-    <script src="js/app.js"></script>
-    <script src="js/controllers.js"></script>
-    <script src="js/routes.js"></script>
-    <script src="js/services.js"></script>
-    <script src="js/directives.js"></script>
-
-    <!-- Only required for Tab projects w/ pages in multiple tabs 
+    <!-- Only required for Tab projects w/ pages in multiple tabs
     <script src="lib/ionicuirouter/ionicUIRouter.js"></script>
     -->
 
   </head>
-  <body ng-app="app" animation="slide-left-right-ios7">
+  <body animation="slide-left-right-ios7">
+      <greet-user></greet-user>
   <div>
     <div>
         <ion-nav-bar class="bar-stable">

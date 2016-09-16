@@ -1,0 +1,35 @@
+.float-right{
+    float: right;
+}
+
+.double-sided-toggle{
+    width: 50%;
+    display: inline-flex;
+    font-size: large;
+}
+
+.double-sided-toggle span{
+    margin: 15px;
+}
+
+.no-border{
+    border: none;
+}
+
+.toggle-dims{
+    height: 50px;
+    width: 80px;
+    padding-right: 0px;
+}
+
+.toggle-dims .track{
+    border-color: #11c1f3;
+    background-color: #11c1f3;
+}
+
+.toggle-label{
+    margin: 15px;
+    margin-right: 80px;
+    font-size: larger;
+    font-weight: bold;
+}

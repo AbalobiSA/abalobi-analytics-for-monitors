@@ -1,0 +1,15 @@
+<div>
+    <div class="list">
+      <label class="item item-input item-select">
+        <div class="input-label">
+          Select location:
+        </div>
+        <select ng-options="location as location for location in $ctrl.locations"
+                    ng-model="selection" ng-change="$ctrl.locationChange(selection)"></select>
+      </label>
+    </div>
+    <br/>
+    <div>
+        <bar-chart data="$ctrl.dataMap" xtitle="$ctrl.xTitle" ytitle="$ctrl.yTitle"></bar-chart>
+    </div>
+</div>

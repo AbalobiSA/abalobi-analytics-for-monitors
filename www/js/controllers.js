@@ -17,8 +17,8 @@ angular.module('app.controllers', [])
 
     $http({
        method: 'GET',
-       url: 'https://test-abalobi-monitor.herokuapp.com/api/get'
-     
+       url: 'https://test-abalobi-monitor.herokuapp.com/api/get/'
+
 
    }).success(function(data) {
 
@@ -30,9 +30,6 @@ angular.module('app.controllers', [])
        alert("Error")
        console.log('Error: ' + data);
    });
-
-
-
 })
 
 .controller('Chart2Ctrl', function($scope, pgData, $http, $ionicLoading) {
