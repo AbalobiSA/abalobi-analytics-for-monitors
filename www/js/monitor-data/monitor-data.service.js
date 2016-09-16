@@ -8,7 +8,7 @@ angular.module('monitorData')
         return $resource(API_URL+'?id=:queryType', {}, {
             query: {
               method: 'GET',
-              isArray: true
+              isArray: false
             }
         });
     }
