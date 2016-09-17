@@ -42,11 +42,13 @@ app.get('/api/get', function(req, res){
 
         if (req.query.id == "query_boat_list"){
             console.log("query boat");
-            query =  client.query('SELECT DISTINCT boat_id__c, skipper_id__c, ' +
+            //query =  client.query('SELECT DISTINCT display_name__c, skipper_id__c, ' +
             //'boat_reg__c, abalobi_boat_id__c, num_crew__c, boat_role__c '
-            //TODO: boat_id_other, lkup_boat_id__c, boat_type__c are NOT the correct fields (see above)!
-            'boat_id_other__c, lkup_boat_id__c, number_of_crew__c, boat_type__c ' +
-            'FROM salesforce.ablb_monitor_trip__c WHERE boat_id__c IS NOT NULL;');
+            //TODO: see original above - below are NOT all the correct fields (see above)!
+
+            query =  client.query('SELECT DISTINCT name, owner_other__c, ' +
+            'date_registered_on_abalobi__c, display_name__c, engine_capacity_total__c, type__c ' +
+            'FROM salesforce.ablb_boat__c WHERE name IS NOT NULL;');
         }
 
         //TODO: Change INNER JOIN to link on odk_uuid__c instead of sfid (sfids are just linked using odk_uuid in salesforce)
@@ -62,6 +64,9 @@ app.get('/api/get', function(req, res){
         }
 
         if (req.query.id == "total_species_weight_by_month_by_boat_type"){
+            query =  client.query('SELECT distinct odk_date__c from salesforce.monitor_day__c;');
+            //TODO: Fix this query!
+            /*
             query =  client.query('SELECT odk_date__c, species__c, weight_kg__c, '+
             'num_items__c, bait_used__c, salesforce.ablb_monitor_catch__c.odk_uuid__c, main_fisher_id__c, '+
             'landing_site__c, gps_lat__c, gps_lon__c, boat_type__c ' +
@@ -70,11 +75,14 @@ app.get('/api/get', function(req, res){
             'ON salesforce.ablb_monitor_catch__c.parent_trip__c = salesforce.ablb_monitor_trip__c.sfid '+
             'INNER JOIN salesforce.ablb_monitor_day__c '+
             'ON salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid '+
-            'INNER JOIN salesforce.ablb_monitor_trip__c '+
-            'ON salesforce.ablb_monitor_trip__c.parent_trip__c = salesforce.ablb_monitor_trip__c.sfid;');
+            'INNER JOIN salesforce.ablb_boat__c '+
+            'ON salesforce.ablb_monitor_trip__c.parent_trip__c = salesforce.ablb_monitor_trip__c.sfid;');*/
         }
 
         if (req.query.id == "total-boat-types-by-month"){
+            query =  client.query('SELECT distinct odk_date__c from salesforce.monitor_day__c;');
+            //TODO: Fix this query!
+            /*
             query =  client.query('SELECT odk_date__c, main_fisher_id__c, '+
             'boat_id__c, boat_type__c, landing_site__c, gps_lat__c, '+
             'gps_lon__c, num_boats_local__c, num_boats_ski__c, '+
@@ -82,7 +90,7 @@ app.get('/api/get', function(req, res){
             'INNER JOIN salesforce.ablb_monitor_trip__c ON '+
             'salesforce.ablb_monitor_trip__c.parent_trip__c = salesforce.ablb_monitor_trip__c.sfid '+
             'INNER JOIN salesforce.ablb_monitor_day__c ON '+
-            'salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid;');
+            'salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid;');*/
         }
 
         if(req.query.id == "submissions_by_month_by_location"){
