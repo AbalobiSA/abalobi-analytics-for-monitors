@@ -1,3 +1,7 @@
+
+// !!! THIS CODE IS NOT USED AT PRESENT - OLD CODE!!!
+
+
 angular.module('app.controllers', [])
 
 .controller('HomeCtrl', function($scope , $http, pgData) {
@@ -17,7 +21,7 @@ angular.module('app.controllers', [])
 
     $http({
        method: 'GET',
-       url: 'https://test-abalobi-monitor.herokuapp.com/api/get/'
+       url: 'https://abalobi-analytics-for-monitors.herokuapp.com/api/get/'
 
 
    }).success(function(data) {
@@ -40,7 +44,7 @@ angular.module('app.controllers', [])
 
     $http({
        method: 'GET',
-       url: 'https://test-abalobi-monitor.herokuapp.com/api/get',
+       url: 'https://abalobi-analytics-for-monitors.herokuapp.com/api/get',
        params : {"id" : "query_landing_site_list"}
 
     }).success(function(data) {
@@ -64,7 +68,7 @@ angular.module('app.controllers', [])
 
     $http({
        method: 'GET',
-       url: 'https://test-abalobi-monitor.herokuapp.com/api/get',
+       url: 'https://abalobi-analytics-for-monitors.herokuapp.com/api/get',
        params : {"id" : "query_samples"}
 
     }).success(function(data) {

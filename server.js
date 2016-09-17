@@ -1,5 +1,6 @@
 var dbSecrets = require('./server-secrets')
 var express = require('express'),
+var jwt = require('express-jwt');
 cors = require('cors'),
 extend = require("extend")
 app = express();
@@ -9,7 +10,15 @@ app.listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
 })
 
+var authenticate = jwt({
+  secret: new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64'),
+  audience: process.env.AUTH0_CLIENT_ID
+});
+
 app.use(cors());
+
+//secure GET API
+//app.use('/api/get', authenticate)
 
 var pg = require('pg')
 var DATABASE_URL=dbSecrets.DB_URL;
