@@ -1,6 +1,5 @@
 var dbSecrets = require('./server-secrets')
 var express = require('express'),
-var jwt = require('express-jwt');
 cors = require('cors'),
 extend = require("extend")
 app = express();
@@ -9,6 +8,8 @@ app.set('port', process.env.PORT || 5001);
 app.listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
 })
+
+var jwt = require('express-jwt');
 
 var authenticate = jwt({
   secret: new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64'),
