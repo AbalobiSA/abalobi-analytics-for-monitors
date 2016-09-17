@@ -48,7 +48,7 @@ app.get('/api/get', function(req, res){
 
             query =  client.query('SELECT DISTINCT name, owner_other__c, ' +
             'date_registered_on_abalobi__c, display_name__c, engine_capacity_total__c, type__c ' +
-            'FROM salesforce.ablb_boat__c WHERE name IS NOT NULL;');
+            'FROM salesforce.ablb_boat__c WHERE name IS NOT NULL LIMIT 20;');
         }
 
         //TODO: Change INNER JOIN to link on odk_uuid__c instead of sfid (sfids are just linked using odk_uuid in salesforce)
@@ -60,11 +60,11 @@ app.get('/api/get', function(req, res){
             'FROM salesforce.ablb_monitor_catch__c '+
             'INNER JOIN salesforce.ablb_monitor_trip__c ' +
             'ON salesforce.ablb_monitor_catch__c.parent_trip__c = salesforce.ablb_monitor_trip__c.sfid ' +
-            'INNER JOIN salesforce.ablb_monitor_day__c ON salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid;');
+            'INNER JOIN salesforce.ablb_monitor_day__c ON salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid LIMIT 20;');
         }
 
         if (req.query.id == "total_species_weight_by_month_by_boat_type"){
-            query =  client.query('SELECT distinct odk_date__c from salesforce.monitor_day__c;');
+            query =  client.query('SELECT distinct odk_date__c from salesforce.monitor_day__c LIMIT 20;');
             //TODO: Fix this query!
             /*
             query =  client.query('SELECT odk_date__c, species__c, weight_kg__c, '+
@@ -80,7 +80,7 @@ app.get('/api/get', function(req, res){
         }
 
         if (req.query.id == "total-boat-types-by-month"){
-            query =  client.query('SELECT distinct odk_date__c from salesforce.monitor_day__c;');
+            query =  client.query('SELECT distinct odk_date__c from salesforce.monitor_day__c LIMIT 20;');
             //TODO: Fix this query!
             /*
             query =  client.query('SELECT odk_date__c, main_fisher_id__c, '+
@@ -97,7 +97,7 @@ app.get('/api/get', function(req, res){
             query = client.query('SELECT odk_date__c, landing_site__c '+
             'FROM salesforce.ablb_monitor_trip__c '+
             'INNER JOIN salesforce.ablb_monitor_day__c '+
-            'ON salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid;');
+            'ON salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid LIMIT 20;');
         }
 
         if(req.query.id == "samples_query"){
@@ -109,15 +109,15 @@ app.get('/api/get', function(req, res){
             'INNER JOIN salesforce.ablb_monitor_trip__c ' +
             'ON salesforce.ablb_monitor_catch__c.parent_trip__c = salesforce.ablb_monitor_trip__c.sfid ' +
             'INNER JOIN salesforce.ablb_monitor_day__c ' +
-            'ON salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid;');
+            'ON salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid LIMIT 20;');
         }
 
         else if (req.query.id == "query_landing_site_list"){
-            query =  client.query('SELECT DISTINCT landing_site__c FROM salesforce.ablb_monitor_Log__c')
+            query =  client.query('SELECT DISTINCT landing_site__c FROM salesforce.ablb_monitor_Log__c LIMIT 20')
         }
 
         else if (req.query.id == "query_samples"){
-            query =  client.query('SELECT weight_kg__c, length_cm__c FROM salesforce.ablb_monitor_Sample__c')
+            query =  client.query('SELECT weight_kg__c, length_cm__c FROM salesforce.ablb_monitor_Sample__c LIMIT 20')
         }
 
 
