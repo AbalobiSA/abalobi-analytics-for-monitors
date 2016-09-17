@@ -42,16 +42,19 @@ app.get('/api/get', function(req, res){
 
         if (req.query.id == "query_boat_list"){
             console.log("query boat");
-            query =  client.query('SELECT DISTINCT boat_name__c, skipper__c, ' +
-            'boat_reg__c, abalobi_boat_id__c, num_crew__c, boat_role__c ' +
-            'FROM salesforce.ablb_monitor_trip__c WHERE boat_name__c IS NOT NULL;');
+            query =  client.query('SELECT DISTINCT boat_id__c, skipper_id__c, ' +
+            //'boat_reg__c, abalobi_boat_id__c, num_crew__c, boat_role__c '
+            //TODO: boat_id_other, lkup_boat_id__c, boat_type__c are NOT the correct fields (see above)!
+            'boat_id_other__c, lkup_boat_id__c, number_of_crew__c, boat_type__c ' +
+            'FROM salesforce.ablb_monitor_trip__c WHERE boat_id__c IS NOT NULL;');
         }
 
+        //TODO: Change INNER JOIN to link on odk_uuid__c instead of sfid (sfids are just linked using odk_uuid in salesforce)
         if (req.query.id == "total_species_weight_by_month"){
             console.log("##catch data");
             query =  client.query('SELECT odk_date__c, species__c, weight_kg__c, '+
-            'num_items__c, bait__c, odk_catch_instance__c, main_fisher_name__c, ' +
-            'landing_site__c, geo_lat__c, geo_lon__c ' +
+            'num_items__c, bait_used__c, salesforce.ablb_monitor_catch__c.odk_uuid__c, main_fisher_id__c, ' +
+            'landing_site__c, gps_lat__c, gps_lon__c ' +
             'FROM salesforce.ablb_monitor_catch__c '+
             'INNER JOIN salesforce.ablb_monitor_trip__c ' +
             'ON salesforce.ablb_monitor_catch__c.parent_trip__c = salesforce.ablb_monitor_trip__c.sfid ' +
@@ -60,8 +63,8 @@ app.get('/api/get', function(req, res){
 
         if (req.query.id == "total_species_weight_by_month_by_boat_type"){
             query =  client.query('SELECT odk_date__c, species__c, weight_kg__c, '+
-            'num_items__c, bait__c, odk_catch_instance__c, main_fisher_name__c, '+
-            'landing_site__c, geo_lat__c, geo_lon__c, boat_role__c ' +
+            'num_items__c, bait_used__c, salesforce.ablb_monitor_catch__c.odk_uuid__c, main_fisher_id__c, '+
+            'landing_site__c, gps_lat__c, gps_lon__c, boat_type__c ' +
             'FROM salesforce.ablb_monitor_catch__c '+
             'INNER JOIN salesforce.ablb_monitor_trip__c '+
             'ON salesforce.ablb_monitor_catch__c.parent_trip__c = salesforce.ablb_monitor_trip__c.sfid '+
@@ -72,9 +75,9 @@ app.get('/api/get', function(req, res){
         }
 
         if (req.query.id == "total-boat-types-by-month"){
-            query =  client.query('SELECT odk_date__c, main_fisher_name__c, '+
-            'boat_name__c, boat_role__c, landing_site__c, geo_lat__c, '+
-            'geo_lon__c, num_boats_local__c, num_boats_ski__c, '+
+            query =  client.query('SELECT odk_date__c, main_fisher_id__c, '+
+            'boat_id__c, boat_type__c, landing_site__c, gps_lat__c, '+
+            'gps_lon__c, num_boats_local__c, num_boats_ski__c, '+
             'num_boats_sport__c FROM salesforce.ablb_monitor_trip__c '+
             'INNER JOIN salesforce.ablb_monitor_trip__c ON '+
             'salesforce.ablb_monitor_trip__c.parent_trip__c = salesforce.ablb_monitor_trip__c.sfid '+
@@ -90,7 +93,15 @@ app.get('/api/get', function(req, res){
         }
 
         if(req.query.id == "samples_query"){
-            query = client.query('SELECT odk_date__c, landing_site__c, salesforce.ablb_monitor_sample__c.species__c, salesforce.ablb_monitor_sample__c.length_cm__c, salesforce.ablb_monitor_sample__c.weight_kg__c FROM salesforce.ablb_monitor_sample__c INNER JOIN salesforce.ablb_monitor_catch__c ON salesforce.ablb_monitor_sample__c.parent_catch__c = salesforce.ablb_monitor_catch__c.sfid INNER JOIN salesforce.ablb_monitor_trip__c ON salesforce.ablb_monitor_catch__c.parent_trip__c = salesforce.ablb_monitor_trip__c.sfid INNER JOIN salesforce.ablb_monitor_day__c ON salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid;');
+            query = client.query('SELECT odk_date__c, landing_site__c, ' +
+            'salesforce.ablb_monitor_sample__c.species__c, salesforce.ablb_monitor_sample__c.length_cm__c, ' +
+            'salesforce.ablb_monitor_sample__c.weight_kg__c FROM salesforce.ablb_monitor_sample__c ' +
+            'INNER JOIN salesforce.ablb_monitor_catch__c ' +
+            'ON salesforce.ablb_monitor_sample__c.parent_catch__c = salesforce.ablb_monitor_catch__c.sfid ' +
+            'INNER JOIN salesforce.ablb_monitor_trip__c ' +
+            'ON salesforce.ablb_monitor_catch__c.parent_trip__c = salesforce.ablb_monitor_trip__c.sfid ' +
+            'INNER JOIN salesforce.ablb_monitor_day__c ' +
+            'ON salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid;');
         }
 
         else if (req.query.id == "query_landing_site_list"){
