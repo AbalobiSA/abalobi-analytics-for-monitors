@@ -75,7 +75,8 @@ app.get('/api/get', function(req, res){
             'INNER JOIN salesforce.ablb_monitor_trip__c '+
             'ON salesforce.ablb_monitor_catch__c.parent_trip__c = salesforce.ablb_monitor_trip__c.sfid '+
             'INNER JOIN salesforce.ablb_monitor_day__c '+
-            'ON salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid LIMIT 20;'+
+            'ON salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid LIMIT 20;');
+        }
 
 
         else if (req.query.id == "total-boat-types-by-month"){
@@ -85,7 +86,7 @@ app.get('/api/get', function(req, res){
             'gps_lon__c, num_boats_local__c, num_boats_ski__c, '+
             'num_boats_sport__c FROM salesforce.ablb_monitor_trip__c '+
             'INNER JOIN salesforce.ablb_monitor_day__c ON '+
-            'salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid LIMIT 20;');*/
+            'salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid LIMIT 20;');
         }
 
         else if(req.query.id == "submissions_by_month_by_location"){
