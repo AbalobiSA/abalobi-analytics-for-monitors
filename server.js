@@ -55,7 +55,7 @@ app.get('/api/get', function(req, res){
 
         //TODO: NOte that either main_fisher_id__c (abalobi-registered fisher) OR main_fisher_other__c (non-registered) will be populated, not both)
         //TODO: Change INNER JOIN to link on odk_uuid__c instead of sfid (sfids are just linked using odk_uuid in salesforce)
-        else if (req.query.id == "total_species_weight_by_month"){
+        if (req.query.id == "total_species_weight_by_month"){
             console.log("##catch data");
             query =  client.query('SELECT odk_date__c, species__c, weight_kg__c, '+
             'num_items__c, bait_used__c, salesforce.ablb_monitor_catch__c.odk_uuid__c, main_fisher_id__c, ' +
