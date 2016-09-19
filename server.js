@@ -111,23 +111,23 @@ app.get('/api/get', function(req, res){
         }
 
         // ========  END OF QUERY DEFINITIONS ==========
-        //var DEBUG_LOG_SQL = process.env.DEBUG_LOG_SQL;
+        var DEBUG_LOG_SQL = process.env.DEBUG_LOG_SQL;
 
         query.on('row', function(row) {
-            /*if (DEBUG_LOG_SQL) {
+            if (DEBUG_LOG_SQL==true) {
                 console.log("start" +JSON.stringify(rows, null ,2))
-            }*/
+            }
             rows[row_count] = row
             row_count = row_count + 1;
-            /*if (DEBUG_LOG_SQL) {
+            if (DEBUG_LOG_SQL==true) {
                 console.log("end" +JSON.stringify(rows, null, 2))
-            }*/
+            }
         })
         query.on('end', function(result) {
 
-            /*if (DEBUG_LOG_SQL) {
+            if (DEBUG_LOG_SQL==true) {
                 console.log(rows);
-            }*/
+            }
             console.log("######################## returning rows");
             res.json(rows)
         })
