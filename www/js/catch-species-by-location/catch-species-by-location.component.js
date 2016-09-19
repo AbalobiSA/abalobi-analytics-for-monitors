@@ -5,7 +5,7 @@ var controller = function CatchSpeciesByLocationController($scope, $element, $at
     var selectedLocation;
     var selectedCalculationMethod;
     var selectedCalculationMethodIndex = 0;
-    var calculationSelectionKeys = ["num_kg__c", "num_items__c"]
+    var calculationSelectionKeys = ["weight_kg__c", "num_items__c"]
 
     ctrl.$onInit = function() {
         MonitorResource.query({queryType: "total_species_weight_by_month"})

@@ -7,7 +7,7 @@ var asd = function HelloController($scope, $element, $attrs, MonitorResource) {
     var selectedMonth;
     var selectedCalculationMethod;
     var selectedCalculationMethodIndex = 0;
-    var calculationSelectionKeys = ["num_kg__c", "num_items__c"]
+    var calculationSelectionKeys = ["weight_kg__c", "num_items__c"]
 
     ctrl.$onInit = function() {
         console.log("requesting data");
