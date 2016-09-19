@@ -49,7 +49,7 @@ app.get('/api/get', function(req, res){
             console.log("query boat");
             query =  client.query('SELECT DISTINCT boat_name__c, skipper__c, ' +
             'boat_reg__c, abalobi_boat_id__c, num_crew__c, boat_role__c ' +
-            'FROM salesforce.monitor_boat__c WHERE boat_name__c IS NOT NULL LIMIT 20;');
+            'FROM salesforce.monitor_boat__c WHERE boat_name__c IS NOT NULL LIMIT 50;');
         }
         */
 
@@ -63,7 +63,7 @@ app.get('/api/get', function(req, res){
             'FROM salesforce.ablb_monitor_catch__c '+
             'INNER JOIN salesforce.ablb_monitor_trip__c ' +
             'ON salesforce.ablb_monitor_catch__c.parent_trip__c = salesforce.ablb_monitor_trip__c.sfid ' +
-            'INNER JOIN salesforce.ablb_monitor_day__c ON salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid LIMIT 20;');
+            'INNER JOIN salesforce.ablb_monitor_day__c ON salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid LIMIT 50;');
         }
 
         else if (req.query.id == "total_species_weight_by_month_by_boat_type"){
@@ -75,7 +75,7 @@ app.get('/api/get', function(req, res){
             'INNER JOIN salesforce.ablb_monitor_trip__c '+
             'ON salesforce.ablb_monitor_catch__c.parent_trip__c = salesforce.ablb_monitor_trip__c.sfid '+
             'INNER JOIN salesforce.ablb_monitor_day__c '+
-            'ON salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid LIMIT 20;');
+            'ON salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid LIMIT 50;');
         }
 
 
@@ -86,14 +86,14 @@ app.get('/api/get', function(req, res){
             'gps_lon__c, num_boats_local__c, num_boats_outside_ski__c, '+
             'num_boats_sport__c FROM salesforce.ablb_monitor_trip__c '+
             'INNER JOIN salesforce.ablb_monitor_day__c ON '+
-            'salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid LIMIT 20;');
+            'salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid LIMIT 50;');
         }
 
         else if(req.query.id == "submissions_by_month_by_location"){
             query = client.query('SELECT odk_date__c, landing_site__c '+
             'FROM salesforce.ablb_monitor_trip__c '+
             'INNER JOIN salesforce.ablb_monitor_day__c '+
-            'ON salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid LIMIT 20;');
+            'ON salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid LIMIT 50;');
         }
 
         /* TODO: This query returns too many rows (6000+)
@@ -107,7 +107,7 @@ app.get('/api/get', function(req, res){
             'INNER JOIN salesforce.ablb_monitor_trip__c ' +
             'ON salesforce.ablb_monitor_catch__c.parent_trip__c = salesforce.ablb_monitor_trip__c.sfid ' +
             'INNER JOIN salesforce.ablb_monitor_day__c ' +
-            'ON salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid LIMIT 20;');
+            'ON salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid LIMIT 50;');
         }
 
         // ========  END OF QUERY DEFINITIONS ==========
