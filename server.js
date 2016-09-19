@@ -83,7 +83,7 @@ app.get('/api/get', function(req, res){
             //TODO: NOte that either main_fisher_id__c (abalobi-registered fisher) OR main_fisher_other__c (non-registered) will be populated, not both)
             query =  client.query('SELECT odk_date__c, main_fisher_id__c, '+
             'boat_id__c, boat_role__c, landing_site__c, gps_lat__c, '+
-            'gps_lon__c, num_boats_local__c, num_boats_ski__c, '+
+            'gps_lon__c, num_boats_local__c, num_boats_outside_ski__c, '+
             'num_boats_sport__c FROM salesforce.ablb_monitor_trip__c '+
             'INNER JOIN salesforce.ablb_monitor_day__c ON '+
             'salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid LIMIT 20;');
@@ -114,10 +114,10 @@ app.get('/api/get', function(req, res){
 
 
         query.on('row', function(row) {
-            console.log("start" +JSON.stringify(rows, null ,2))
+            //console.log("start" +JSON.stringify(rows, null ,2))
             rows[row_count] = row
             row_count = row_count + 1;
-            console.log("end" +JSON.stringify(rows, null, 2))
+            //console.log("end" +JSON.stringify(rows, null, 2))
         })
         query.on('end', function(result) {
 
