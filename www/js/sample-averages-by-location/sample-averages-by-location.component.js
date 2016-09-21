@@ -6,6 +6,8 @@ var controller = function sampleAveragesByLocationController(MonitorResource, Sp
     var selectedCalculationMethod;
     var selectedCalculationMethodIndex = 0;
     var calculationSelectionKeys = ["length_avg", "weight_avg"];
+    ctrl.months = [];
+    ctrl.locations = [];
 
     ctrl.$onInit = function() {
         console.log("init");
@@ -102,7 +104,9 @@ var controller = function sampleAveragesByLocationController(MonitorResource, Sp
                         .sort(StringUtil.otherAtEndcomparator);
 
         // make sure to select the right item in the dropdown
-        ctrl.selectedMonth = ctrl.months[ctrl.months.length-1];
+        if(ctrl.months.indexOf(ctrl.selectedMonth) === -1){
+            ctrl.selectedMonth = ctrl.months[ctrl.months.length-1];
+        }
 
         //deactivate graph rendering so graph doesn't rerender on each change
         renderGraph = false;

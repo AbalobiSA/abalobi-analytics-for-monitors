@@ -10,7 +10,7 @@ var controller = function MonthlyCatchSpeciesByBoatTypeController(MonitorResourc
     var calculationSelectionKeys = ["weight_total", "numbers_total"]
     var renderGraph = true;
     ctrl.months = [];
-    ctrl.locations = []
+    ctrl.locations = [];
 
     ctrl.$onInit = function() {
         selectedCalculationMethod = calculationSelectionKeys[selectedCalculationMethodIndex];
