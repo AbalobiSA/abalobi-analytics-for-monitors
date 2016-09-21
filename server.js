@@ -76,7 +76,7 @@ app.get('/api/get', function(req, res){
                 "ON salesforce.ablb_monitor_day__c.odk_uuid__c = salesforce.ablb_monitor_trip__c.odk_parent_uuid__c "+
                 "WHERE "+columnName+" IS NOT NULL "+
                 "GROUP BY year_month, species__c "+
-                "ORDER BY year_month, species__c LIMIT "+queryLimit+";"
+                "ORDER BY year_month, species__c DESC LIMIT "+queryLimit+";"
             );
         }
 
