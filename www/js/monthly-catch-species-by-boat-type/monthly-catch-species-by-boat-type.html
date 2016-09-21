@@ -1,4 +1,10 @@
 <div>
+    <double-sided-toggle left-option="Weight" right-option="Quantity"
+        label="Calculate By:"
+        on-change="$ctrl.calculationToggleChange(value)"></double-sided-toggle>
+
+    <br/>
+    <br/>
     <div class="list">
       <label class="item item-input item-select">
         <div class="input-label">
@@ -21,10 +27,6 @@
     </div>
 
     <br/>
-
-    <double-sided-toggle left-option="Weight" right-option="Quantity"
-        label="Calculate By:"
-        on-change="$ctrl.calculationToggleChange(value)"></double-sided-toggle>
 
     <div class = " ">
         <stacked-bar-chart data="$ctrl.dataMap" xtitle="$ctrl.xTitle" ytitle="$ctrl.yTitle"></stacked-bar-chart>
