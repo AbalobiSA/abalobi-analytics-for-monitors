@@ -1,14 +1,12 @@
 var catchQuerySubject = new Rx.Subject();
 var responseData;
 
-var controller = function submissionsByMonthLocationController($scope, MonitorResource) {
+var controller = function submissionsByMonthLocationController(MonitorResource, SpeciesUtil, StringUtil) {
 
     var ctrl = this;
-    var selectedLocation;
 
     ctrl.$onInit = function() {
-        MonitorResource.query({queryType: "submissions_by_month_by_location"})
-        .$promise.then(handleCatchResponse);
+        requestData();
     }
 
     //location selection has been changed
@@ -17,15 +15,17 @@ var controller = function submissionsByMonthLocationController($scope, MonitorRe
         updateData();
     }
 
-    function updateData() {
-        console.log("selected location => "+selectedLocation);
+    function requestData(){
+        ctrl.loading = true;
+        MonitorResource.query({queryType: "submissions_by_month_by_location", parameter: ""})
+            .$promise.then(handleCatchResponse);
+    }
 
+    function updateData() {
         Rx.Observable.from(responseData)
-            .map(changeDate)
-            .filter(info => info.landing_site__c == selectedLocation)
-            .groupBy(info => info.month)
-            .flatMap(aggregateMonth)
-            .toMap(x => x.month, x => x.count)
+            .map(SpeciesUtil.truncDateToMonth)
+            .filter(info => info.landing_site__c == selectedLocation.toLowerCase().replace(' ', '_'))
+            .toMap(x => x.month, x => parseInt(x.count))
             .subscribe(data => {
                 ctrl.dataMap = data
                 ctrl.xTitle = "Month";
@@ -37,30 +37,15 @@ var controller = function submissionsByMonthLocationController($scope, MonitorRe
         console.log("@@@@ submission history received");
         responseData = data;
 
-        Rx.Observable.from(data)
-            .groupBy(info => info.landing_site__c)
-            .map(landingSightGroup => landingSightGroup.key)
-            .toArray()
-            .subscribe(locationList => ctrl.locations = locationList);
-    }
+        ctrl.loading = false;
 
-    function changeDate(info) {
-        info.month = info.odk_date__c.substring(0, 7);
-        return info;
-    }
+        ctrl.locations = d3.set(data, x => x.landing_site__c)
+                            .values()
+                            .map(StringUtil.cleanAndCapitalise)
+                            .sort();
 
-    function aggregateMonth(infoObs) {
-        return infoObs
-                .count()
-                .map(function(c){ return {month: infoObs.key, count: c}});
-
-    }
-
-    function sumSpecies(speciesGroup) {
-        var init = {species: speciesGroup.key, totalKg: 0.0};
-        return speciesGroup.reduce((acc, entry) => {
-            acc.totalKg += entry[selectedCalculationMethod]; return acc;
-        }, init);
+        ctrl.selectedLocation = ctrl.locations[0];
+        ctrl.locationChange(ctrl.selectedLocation);
     }
 }
 

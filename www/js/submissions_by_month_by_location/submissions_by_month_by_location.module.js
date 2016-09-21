@@ -1,1 +1,2 @@
-angular.module('submissionsByMonthLocationModule', ['monitorData', 'barChartModule']);
+angular.module('submissionsByMonthLocationModule', ['barChartModule',
+                    'loadingOverlayModule', 'monitorData']);

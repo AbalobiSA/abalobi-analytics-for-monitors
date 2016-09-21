@@ -112,10 +112,12 @@ app.get('/api/get', function(req, res){
         }
 
         else if(req.query.id == "submissions_by_month_by_location"){
-            query = client.query('SELECT odk_date__c, landing_site__c '+
-            'FROM salesforce.ablb_monitor_trip__c '+
-            'INNER JOIN salesforce.ablb_monitor_day__c '+
-            'ON salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid LIMIT 50;');
+            query = client.query(
+                "SELECT date_trunc('month', odk_date__c)+interval '3 hour' AS year_month, landing_site__c, COUNT(*) "+
+                "FROM salesforce.ablb_monitor_day__c "+
+                "GROUP BY year_month, landing_site__c "+
+                "ORDER BY year_month, landing_site__c;"
+            );
         }
 
         /* TODO: This query returns too many rows (6000+)
