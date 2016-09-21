@@ -4,8 +4,8 @@
         <div class="input-label">
           Select Month:
         </div>
-        <select ng-options="month as month for month in $ctrl.months"
-                    ng-model="monthSelection" ng-change="$ctrl.monthChange(monthSelection)"></select>
+        <select ng-options="month for month in $ctrl.months"
+                    ng-model="$ctrl.selectedMonth" ng-change="$ctrl.monthChange($ctrl.selectedMonth)"></select>
       </label>
     </div>
 
@@ -15,8 +15,8 @@
           <div class="input-label">
             Select Location:
           </div>
-          <select ng-options="location as location for location in $ctrl.locations"
-                      ng-model="locationSelection" ng-change="$ctrl.locationChange(locationSelection)"></select>
+          <select ng-options="location for location in $ctrl.locations"
+                      ng-model="$ctrl.selectedLocation" ng-change="$ctrl.locationChange($ctrl.selectedLocation)"></select>
         </label>
     </div>
 
@@ -29,4 +29,5 @@
     <div class = " ">
         <stacked-bar-chart data="$ctrl.dataMap" xtitle="$ctrl.xTitle" ytitle="$ctrl.yTitle"></stacked-bar-chart>
     </div>
+    <loading-overlay loading="$ctrl.loading"></loading-overlay>
 </div>

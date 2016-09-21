@@ -1,4 +1,4 @@
-var asd = function HelloController($scope, $element, $attrs, MonitorResource) {
+var controller = function MonthlyCatchSpeciesByBoatTypeController(MonitorResource, SpeciesUtil, StringUtil) {
 
     var ctrl = this;
     var responseData;
@@ -7,19 +7,22 @@ var asd = function HelloController($scope, $element, $attrs, MonitorResource) {
     var selectedCalculationMethod;
     var selectedCalculationMethodIndex = 0;
     var boatTypes = [];
-    var calculationSelectionKeys = ["num_kg__c", "num_items__c"]
+    var calculationSelectionKeys = ["weight_total", "numbers_total"]
+    var renderGraph = true;
 
     ctrl.$onInit = function() {
-        MonitorResource.query({queryType: "total_species_weight_by_month_by_boat_type"})
-        .$promise.then(handleCatchResponse);
-
         selectedCalculationMethod = calculationSelectionKeys[selectedCalculationMethodIndex];
+        requestData(selectedCalculationMethod)
     }
 
     //month selection has been changed
     ctrl.monthChange = function(selection) {
         selectedMonth = selection;
-        updateData();
+        updateLocationList();
+        if(ctrl.locations.indexOf(ctrl.selectedLocation) === -1){
+            ctrl.selectedLocation = ctrl.locations[0];
+        }
+        ctrl.locationChange(ctrl.selectedLocation);
     }
 
     //location selection has been changed
@@ -37,7 +40,24 @@ var asd = function HelloController($scope, $element, $attrs, MonitorResource) {
             selectedCalculationMethodIndex = 1
         }
         selectedCalculationMethod = calculationSelectionKeys[selectedCalculationMethodIndex];
-        updateData();
+        requestData(selectedCalculationMethod)
+    }
+
+    function requestData(calcMethod){
+        ctrl.loading = true;
+        MonitorResource.query({queryType: "total_species_weight_by_month_by_boat_type", parameter: calcMethod})
+            .$promise.then(handleCatchResponse);
+    }
+
+    function updateLocationList(){
+        l = responseData
+            .filter(info => info.month == selectedMonth)
+            .map(info => info.landing_site__c);
+
+        ctrl.locations = d3.set(l)
+            .values()
+            .map(StringUtil.cleanAndCapitalise)
+            .sort(StringUtil.otherAtEndcomparator);
     }
 
     function getYTitle(index){
@@ -49,70 +69,65 @@ var asd = function HelloController($scope, $element, $attrs, MonitorResource) {
     }
 
     function updateData(){
+        if(renderGraph == false){
+            return;
+        }
         console.log("selected month => "+selectedMonth);
         console.log("selected location => "+selectedLocation);
         console.log("selected calculation method => "+selectedCalculationMethod);
 
         Rx.Observable.from(responseData)
-            .filter(info => info.boat_role__c != null)
-            .filter(info => info[selectedCalculationMethod] != null)
-            .groupBy(info => info.landing_site__c)
-            .filter(locationGroup => locationGroup.key == selectedLocation)
-            .map(locationGroup => locationGroup.filter(info => info.odk_date__c.substring(0,7) == selectedMonth))
-            .flatMap(groupBySpecies)
+            .filter(info => info.month == selectedMonth)
+            .filter(info => info.landing_site__c == selectedLocation.toLowerCase().replace(' ', '_'))
+            .groupBy(info => info.species__c)
+            .flatMap(aggregateSpecies)
             .toArray()
+            .doOnNext(s => console.log(s))
+            .map(list => list.sort((a, b) => SpeciesUtil.speciesComparator(a, b, "key")))
             .subscribe(data => {
                 ctrl.dataMap = data;
+                console.log("data to stacked bar chart");
+                console.log(data);
                 ctrl.xTitle = "Species";
                 ctrl.yTitle = getYTitle(selectedCalculationMethodIndex);
             });
     }
 
     function handleCatchResponse(data) {
-        console.log("@@@@ catch data by boat type received");
-        responseData = data;
+        console.log("catch data by boat type received");
+        ctrl.loading = false;
+        responseData = data.map(SpeciesUtil.truncDateToMonth)
+                        .map(SpeciesUtil.cleanAndCapitalise);
 
-        var dataObs = Rx.Observable.from(data)
-            .filter(record => record.boat_role__c != null);
+        ctrl.months = d3.set(data, x => x.month).values().sort();
 
-        dataObs.map(record => record.boat_role__c)
-            .distinct()
-            .toArray()
-            .subscribe(types => {console.log(types);boatTypes = types});
+        ctrl.locations = d3.set(data, x => x.landing_site__c)
+                        .values()
+                        .map(StringUtil.cleanAndCapitalise)
+                        .sort(StringUtil.otherAtEndcomparator);
 
-        dataObs.map(changeDate)
-            .groupBy(info => info.month)
-            .map(monthGroup => monthGroup.key)
-            .toArray()
-            .subscribe(monthList => ctrl.months = monthList);
+        boatTypes = d3.set(data, x => x.boat_type)
+                        .values().sort(StringUtil.otherAtEndcomparator);
 
-        dataObs.groupBy(record => record.landing_site__c)
-            .map(locationGroup => locationGroup.key)
-            .toArray()
-            .subscribe(locationList => ctrl.locations = locationList);
-    }
+        // make sure to select the right item in the dropdown
+        ctrl.selectedMonth = ctrl.months[ctrl.months.length-1];
 
-    function changeDate(info) {
-        info.month = info.odk_date__c.substring(0, 7);
-        return info;
-    }
+        //deactivate graph rendering so graph doesn't rerender on each change
+        renderGraph = false;
 
-    function groupBySpecies(obs) {
-        return obs.groupBy(info => info.species__c)
-                    .flatMap(aggregateSpecies)
+        // re-render of graph
+        ctrl.monthChange(ctrl.selectedMonth);
+        renderGraph = true;
+        ctrl.locationChange(ctrl.selectedLocation);
     }
 
     function aggregateSpecies(speciesObs) {
-        console.log("AG species");
-
         var records = new Map();
         for(var i = 0; i < boatTypes.length; i++){
             records.set(boatTypes[i], 0);
         }
 
         return speciesObs
-            .groupBy(speciesGroup => speciesGroup.boat_role__c)
-            .flatMap(it => it)
             .reduce(collectTotal, records)
             .map(summedRecords => {
                 return createRecord(speciesObs.key, summedRecords);
@@ -126,7 +141,7 @@ var asd = function HelloController($scope, $element, $attrs, MonitorResource) {
     }
 
     function collectTotal(acc, entry){
-        acc.set(entry.boat_role__c, acc.get(entry.boat_role__c)+entry[selectedCalculationMethod]);
+        acc.set(entry.boat_type, acc.get(entry.boat_type)+entry[selectedCalculationMethod]);
         return acc;
     }
 }
@@ -134,5 +149,5 @@ var asd = function HelloController($scope, $element, $attrs, MonitorResource) {
 angular.module('monthlyCatchSpeciesByBoatTypeModule')
     .component('monthlyCatchSpeciesByBoatTypeData', {
         templateUrl: 'js/monthly-catch-species-by-boat-type/monthly-catch-species-by-boat-type.html',
-        controller: asd
+        controller: controller
     });
