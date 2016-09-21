@@ -37,12 +37,17 @@ app.get('/api/get', function(req, res){
         var row_count = 0;
         var query = null;// =  client.query('SELECT * FROM salesforce.ablb_monitor_log__c')
 
-        console.log("##query");
+        //Global query limt
+        queryLimit = 150;
+
         console.log(req.query);
 
         // ========  QUERY DEFINITIONS ==========
 
         //TODO: Adjust all LIMIT clauses, but don't remove completely.
+
+        //NB: 3 hours are added to the date because when results are sent back
+        // the time is pulled back by 2 due to timezone changes
 
         /*  OLD, unused - by Eduardo before DB tables changed
         if (req.query.id == "query_boat_list"){
@@ -56,14 +61,23 @@ app.get('/api/get', function(req, res){
         //TODO: NOte that either main_fisher_id__c (abalobi-registered fisher) OR main_fisher_other__c (non-registered) will be populated, not both)
         //TODO: Change INNER JOIN to link on odk_uuid__c instead of sfid (sfids are just linked using odk_uuid in salesforce)
         if (req.query.id == "total_species_weight_by_month"){
-            console.log("##catch data");
-            query =  client.query('SELECT odk_date__c, species__c, weight_kg__c, '+
-            'num_items__c, bait_used__c, salesforce.ablb_monitor_catch__c.odk_uuid__c, main_fisher_id__c, ' +
-            'landing_site__c, gps_lat__c, gps_lon__c ' +
-            'FROM salesforce.ablb_monitor_catch__c '+
-            'INNER JOIN salesforce.ablb_monitor_trip__c ' +
-            'ON salesforce.ablb_monitor_catch__c.parent_trip__c = salesforce.ablb_monitor_trip__c.sfid ' +
-            'INNER JOIN salesforce.ablb_monitor_day__c ON salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid LIMIT 50;');
+            if(req.query.param == "weight_total"){
+                columnName = "weight_kg__c";
+            }else if (req.query.param == "numbers_total") {
+                columnName = "num_items__c";
+            }
+            query =  client.query(
+                "SELECT date_trunc('month', odk_date__c)+ interval '3 hours' AS year_month, "+
+                "species__c, SUM("+columnName+") as "+req.query.param+" "+
+                "FROM salesforce.ablb_monitor_catch__c "+
+                "INNER JOIN salesforce.ablb_monitor_trip__c "+
+                "ON salesforce.ablb_monitor_trip__c.odk_uuid__c = salesforce.ablb_monitor_catch__c.odk_parent_uuid__c "+
+                "INNER JOIN salesforce.ablb_monitor_day__c "+
+                "ON salesforce.ablb_monitor_day__c.odk_uuid__c = salesforce.ablb_monitor_trip__c.odk_parent_uuid__c "+
+                "WHERE "+columnName+" IS NOT NULL "+
+                "GROUP BY year_month, species__c "+
+                "ORDER BY year_month, species__c LIMIT "+queryLimit+";"
+            );
         }
 
         else if (req.query.id == "total_species_weight_by_month_by_boat_type"){

@@ -1,20 +1,16 @@
-var catchQuerySubject = new Rx.Subject();
 var responseData;
 
-var asd = function HelloController($scope, $element, $attrs, MonitorResource) {
+var controller = function MonthlyCatchSpeciesController($scope, MonitorResource, SpeciesUtil) {
 
     var ctrl = this;
     var selectedMonth;
     var selectedCalculationMethod;
     var selectedCalculationMethodIndex = 0;
-    var calculationSelectionKeys = ["weight_kg__c", "num_items__c"]
+    var calculationSelectionKeys = ["weight_total", "numbers_total"]
 
     ctrl.$onInit = function() {
-        console.log("requesting data");
-        MonitorResource.query({queryType: "total_species_weight_by_month"})
-        .$promise.then(handleCatchResponse);
-
         selectedCalculationMethod = calculationSelectionKeys[selectedCalculationMethodIndex];
+        requestData(selectedCalculationMethod)
     }
 
     //month selection has been changed
@@ -32,7 +28,13 @@ var asd = function HelloController($scope, $element, $attrs, MonitorResource) {
             selectedCalculationMethodIndex = 1
         }
         selectedCalculationMethod = calculationSelectionKeys[selectedCalculationMethodIndex];
-        updateData();
+        requestData(selectedCalculationMethod)
+    }
+
+    function requestData(calcMethod){
+        ctrl.loading = true;
+        MonitorResource.query({queryType: "total_species_weight_by_month", parameter: calcMethod})
+            .$promise.then(handleCatchResponse);
     }
 
     function getYTitle(index){
@@ -44,17 +46,15 @@ var asd = function HelloController($scope, $element, $attrs, MonitorResource) {
     }
 
     function updateData() {
-        console.log("selected month => "+selectedMonth);
-        console.log("selected calculation method => "+selectedCalculationMethod);
-
         Rx.Observable.from(responseData)
-            .filter(info => info[selectedCalculationMethod] != null)
-            .map(changeDate)
-            .groupBy(info => info.month)
-            .filter(monthGroup => monthGroup.key == selectedMonth)
-            .flatMap(aggregateMonth)
-            .toMap(x => x.species, x => x.totalKg)
+            .filter(info => info.month == selectedMonth)
+            .map(SpeciesUtil.cleanAndCapitalise)
+            .toArray()
+            .map(list => list.sort(SpeciesUtil.speciesComparator))
+            .flatMap(list => Rx.Observable.from(list))
+            .toMap(item => item.species__c, item => item[selectedCalculationMethod])
             .subscribe(data => {
+                console.log(data);
                 ctrl.dataMap = data;
                 ctrl.xTitle = "Species";
                 ctrl.yTitle = getYTitle(selectedCalculationMethodIndex);
@@ -62,41 +62,18 @@ var asd = function HelloController($scope, $element, $attrs, MonitorResource) {
     }
 
     function handleCatchResponse(data) {
-        console.log("@@@@ catch data received");
-        console.log(data);
-        responseData = data;
-
-        var monthGroupObs = Rx.Observable.from(data)
-            .map(changeDate)
-            .groupBy(info => info.month);
-
-        monthGroupObs.map(monthGroup => monthGroup.key)
-            .toArray()
-            .subscribe(monthList => ctrl.months = monthList);
-    }
-
-    function changeDate(info) {
-        info.month = info.odk_date__c.substring(0, 7);
-        return info;
-    }
-
-    function aggregateMonth(infoObs) {
-        var init = {species: '', totalKg: 0.0}
-        return infoObs
-            .groupBy(monthGroup => monthGroup.species__c)
-            .flatMap(sumSpecies);
-    }
-
-    function sumSpecies(speciesGroup) {
-        var init = {species: speciesGroup.key, totalKg: 0.0};
-        return speciesGroup.reduce((acc, entry) => {
-            acc.totalKg += entry[selectedCalculationMethod]; return acc;
-        }, init);
+        ctrl.loading = false;
+        responseData = data.map(SpeciesUtil.truncDateToMonth);
+        ctrl.months = d3.set(data, x => x.month).values().sort();
+        // make sure to select the right item in the dropdown
+        ctrl.selected = ctrl.months[ctrl.months.length-1];
+        // and also initiate a re-render of graph
+        ctrl.monthChange(ctrl.selected);
     }
 }
 
 angular.module('monthlyCatchSpecies')
     .component('monthlyCatchSpeciesData', {
         templateUrl: 'js/monthly-catch-species/monthly-catch-species.html',
-        controller: asd
+        controller: controller
     });
