@@ -1,4 +1,4 @@
-var mController = function StackedBarChartController($element){
+var mController = function StackedBarChartController($element, StringUtil){
     var ctrl = this;
     var legendSquareSize = 18;
 
@@ -154,7 +154,7 @@ var mController = function StackedBarChartController($element){
           .attr("y", margin.bottom/1.5)
           .attr("dy", "1em")
           .attr("text-anchor", "start")
-          .text(function(d) { return d; });
+          .text(StringUtil.cleanAndCapitalise);
     }
 }
 
