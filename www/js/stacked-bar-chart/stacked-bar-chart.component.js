@@ -13,7 +13,7 @@ var mController = function StackedBarChartController($element){
                 return data;
             },
             set: function(newVal){
-                console.log("new data given");
+                // console.log("new data given");
                 data = newVal;
                 display();
             }
@@ -24,7 +24,6 @@ var mController = function StackedBarChartController($element){
                 return ytitle;
             },
             set: function(newVal){
-                console.log("setting new y val");
                 ytitle = newVal;
                 display();
             }
@@ -35,7 +34,6 @@ var mController = function StackedBarChartController($element){
                 return xtitle;
             },
             set: function(newVal){
-                console.log("setting new x val");
                 xtitle = newVal;
                 display();
             }
@@ -49,9 +47,6 @@ var mController = function StackedBarChartController($element){
     }
 
     function display() {
-        console.log("displaying");
-        console.log("xTitle => "+ctrl.xtitle);
-        console.log("yTitle => "+ctrl.ytitle);
         var margin = {top: 20, right: 20, bottom: 100, left: 60},
             width = 600 - margin.left - margin.right,
             height = 600 - margin.top - margin.bottom;
@@ -68,8 +63,12 @@ var mController = function StackedBarChartController($element){
         var y = d3.scaleLinear()
                     .rangeRound([height, 0]);
 
-        var z = d3.scaleOrdinal()
-            .range(["#98abc5", "#6b486b", "#ff8c00"]);
+        var z = null;
+        if(zValues.length < 10 ){
+            z = d3.scaleOrdinal(d3.schemeCategory10);
+        } else {
+            z = d3.scaleOrdinal(d3.schemeCategory20);
+        }
 
         var stack = d3.stack();
 
