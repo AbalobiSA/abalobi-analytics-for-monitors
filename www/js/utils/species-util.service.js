@@ -2,21 +2,23 @@ angular.module('utilsModule')
     .service('SpeciesUtil', function() {
         return {
             // Capitalises each specie name and replaces 'not_on_list' with 'Other'
-            cleanAndCapitalise: function (info) {
-                if (info.species__c == "not_on_list"){
-                    info.species__c = "Other";
+            cleanAndCapitalise: function (info, accessor) {
+                accessor = (typeof accessor !== 'number')? accessor: 'species__c';
+                if (info[accessor] == "not_on_list"){
+                    info[accessor] = "Other";
                 } else {
-                    info.species__c = info.species__c.substring(0,1).toUpperCase()+info.species__c.substring(1);
+                    info[accessor] = info[accessor].substring(0,1).toUpperCase()+info[accessor].substring(1);
                 }
                 return info;
             },
 
             // Sorts the items according to species pushing "Other"
             // to the end of the list
-            speciesComparator: function (a, b) {
-                if(a.species__c == "Other" || a.species__c > b.species__c) {
+            speciesComparator: function (a, b, accessor) {
+                accessor = (typeof accessor !== 'number')? accessor: 'species__c';
+                if(a[accessor] == "Other" || a[accessor] > b[accessor]) {
                     return 1;
-                }else if(b.species__c == "Other" || a.species__c < b.species__c){
+                }else if(b[accessor] == "Other" || a[accessor] < b[accessor]){
                     return -1;
                 }
                 return 0;
