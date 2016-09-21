@@ -9,6 +9,8 @@ var controller = function MonthlyCatchSpeciesByBoatTypeController(MonitorResourc
     var boatTypes = [];
     var calculationSelectionKeys = ["weight_total", "numbers_total"]
     var renderGraph = true;
+    ctrl.months = [];
+    ctrl.locations = []
 
     ctrl.$onInit = function() {
         selectedCalculationMethod = calculationSelectionKeys[selectedCalculationMethodIndex];
@@ -110,7 +112,9 @@ var controller = function MonthlyCatchSpeciesByBoatTypeController(MonitorResourc
                         .values().sort(StringUtil.otherAtEndcomparator);
 
         // make sure to select the right item in the dropdown
-        ctrl.selectedMonth = ctrl.months[ctrl.months.length-1];
+        if(ctrl.months.indexOf(ctrl.selectedMonth) === -1){
+            ctrl.selectedMonth = ctrl.months[ctrl.months.length-1];
+        }
 
         //deactivate graph rendering so graph doesn't rerender on each change
         renderGraph = false;

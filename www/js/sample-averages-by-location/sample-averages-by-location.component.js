@@ -1,17 +1,26 @@
-var controller = function submissionsByMonthLocationController($scope, MonitorResource) {
+var controller = function sampleAveragesByLocationController(MonitorResource, SpeciesUtil, StringUtil) {
 
     var ctrl = this;
     var responseData;
     var selectedLocation;
     var selectedCalculationMethod;
     var selectedCalculationMethodIndex = 0;
-    var calculationSelectionKeys = ["length_cm__c", "weight_kg__c"];
+    var calculationSelectionKeys = ["length_avg", "weight_avg"];
 
     ctrl.$onInit = function() {
-        MonitorResource.query({queryType: "samples_query"})
-        .$promise.then(handleCatchResponse);
-
+        console.log("init");
         selectedCalculationMethod = calculationSelectionKeys[selectedCalculationMethodIndex];
+        requestData(selectedCalculationMethod)
+    }
+
+    //month selection has been changed
+    ctrl.monthChange = function(selection) {
+        selectedMonth = selection;
+        updateLocationList();
+        if(ctrl.locations.indexOf(ctrl.selectedLocation) === -1){
+            ctrl.selectedLocation = ctrl.locations[0];
+        }
+        ctrl.locationChange(ctrl.selectedLocation);
     }
 
     //location selection has been changed
@@ -28,10 +37,29 @@ var controller = function submissionsByMonthLocationController($scope, MonitorRe
             selectedCalculationMethodIndex = 1
         }
         selectedCalculationMethod = calculationSelectionKeys[selectedCalculationMethodIndex];
-        updateData();
+        requestData(selectedCalculationMethod)
+    }
+
+    function requestData(calcMethod){
+        console.log("requestData");
+        ctrl.loading = true;
+        MonitorResource.query({queryType: "samples_query", parameter: calcMethod})
+            .$promise.then(handleCatchResponse);
+    }
+
+    function updateLocationList(){
+        l = responseData
+            .filter(info => info.month == selectedMonth)
+            .map(info => info.landing_site__c);
+
+        ctrl.locations = d3.set(l)
+            .values()
+            .map(StringUtil.cleanAndCapitalise)
+            .sort(StringUtil.otherAtEndcomparator);
     }
 
     function updateData() {
+        console.log("selected month => "+selectedMonth);
         console.log("selected location => "+selectedLocation);
 
         Rx.Observable.from(responseData)
@@ -45,18 +73,44 @@ var controller = function submissionsByMonthLocationController($scope, MonitorRe
                 ctrl.xTitle = "Species";
                 ctrl.yTitle = getYTitle(selectedCalculationMethodIndex);
             });
+
+        Rx.Observable.from(responseData)
+            .filter(info => info.month == selectedMonth)
+            .filter(info => info.landing_site__c == selectedLocation.toLowerCase().replace(' ', '_'))
+            .toMap(x => x.species__c, x => x[selectedCalculationMethod])
+            .subscribe(data => {
+                ctrl.dataMap = data
+                console.log("data to chart");
+                console.log(data);
+                ctrl.xTitle = "Species";
+                ctrl.yTitle = getYTitle(selectedCalculationMethodIndex);
+            });
     }
 
     function handleCatchResponse(data) {
         console.log("@@@@ average history received");
-        console.log(data);
-        responseData = data;
 
-        Rx.Observable.from(data)
-            .groupBy(info => info.landing_site__c)
-            .map(landingSightGroup => landingSightGroup.key)
-            .toArray()
-            .subscribe(locationList => ctrl.locations = locationList);
+        ctrl.loading = false;
+        responseData = data.map(SpeciesUtil.truncDateToMonth)
+                        .map(SpeciesUtil.cleanAndCapitalise);
+
+        ctrl.months = d3.set(data, x => x.month).values().sort();
+
+        ctrl.locations = d3.set(data, x => x.landing_site__c)
+                        .values()
+                        .map(StringUtil.cleanAndCapitalise)
+                        .sort(StringUtil.otherAtEndcomparator);
+
+        // make sure to select the right item in the dropdown
+        ctrl.selectedMonth = ctrl.months[ctrl.months.length-1];
+
+        //deactivate graph rendering so graph doesn't rerender on each change
+        renderGraph = false;
+
+        // re-render of graph
+        ctrl.monthChange(ctrl.selectedMonth);
+        renderGraph = true;
+        ctrl.locationChange(ctrl.selectedLocation);
     }
 
     function getYTitle(index){
