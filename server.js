@@ -68,15 +68,15 @@ app.get('/api/get', function(req, res){
             }
             query =  client.query(
                 "SELECT date_trunc('month', odk_date__c)+ interval '3 hours' AS year_month, "+
-                "species__c, SUM("+columnName+") as "+req.query.param+" "+
+                "species__c, landing_site__c, SUM("+columnName+") as "+req.query.param+" "+
                 "FROM salesforce.ablb_monitor_catch__c "+
                 "INNER JOIN salesforce.ablb_monitor_trip__c "+
                 "ON salesforce.ablb_monitor_trip__c.odk_uuid__c = salesforce.ablb_monitor_catch__c.odk_parent_uuid__c "+
                 "INNER JOIN salesforce.ablb_monitor_day__c "+
                 "ON salesforce.ablb_monitor_day__c.odk_uuid__c = salesforce.ablb_monitor_trip__c.odk_parent_uuid__c "+
                 "WHERE "+columnName+" IS NOT NULL "+
-                "GROUP BY year_month, species__c "+
-                "ORDER BY year_month, species__c DESC LIMIT "+queryLimit+";"
+                "GROUP BY year_month, landing_site__c, species__c "+
+                "ORDER BY year_month, landing_site__c, species__c DESC LIMIT "+queryLimit+";"
             );
         }
 

@@ -1,1 +1,1 @@
-angular.module('catchSpeciesByLocationModule', ['monitorData', 'barChartModule', 'doubleSidedToggleModule']);
+angular.module('catchSpeciesByLocationModule', ['monitorData', 'stackedBarChartModule', 'doubleSidedToggleModule']);

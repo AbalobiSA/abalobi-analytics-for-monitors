@@ -1,21 +1,20 @@
-var controller = function CatchSpeciesByLocationController($scope, $element, $attrs, MonitorResource) {
+var controller = function CatchSpeciesByLocationController(MonitorResource, SpeciesUtil, StringUtil) {
 
     var ctrl = this;
     var responseData;
     var selectedLocation;
     var selectedCalculationMethod;
     var selectedCalculationMethodIndex = 0;
-    var calculationSelectionKeys = ["weight_kg__c", "num_items__c"]
+    var calculationSelectionKeys = ["weight_total", "numbers_total"];
+    var months = [];
 
     ctrl.$onInit = function() {
-        MonitorResource.query({queryType: "total_species_weight_by_month"})
-        .$promise.then(handleCatchResponse);
-
         selectedCalculationMethod = calculationSelectionKeys[selectedCalculationMethodIndex];
+        requestData(selectedCalculationMethod);
     }
 
     //month selection has been changed
-    ctrl.monthChange = function(selection) {
+    ctrl.locationChange = function(selection) {
         selectedLocation = selection;
         updateData();
     }
@@ -29,7 +28,13 @@ var controller = function CatchSpeciesByLocationController($scope, $element, $at
             selectedCalculationMethodIndex = 1
         }
         selectedCalculationMethod = calculationSelectionKeys[selectedCalculationMethodIndex];
-        updateData();
+        requestData(selectedCalculationMethod);
+    }
+
+    function requestData(calcMethod){
+        ctrl.loading = true;
+        MonitorResource.query({queryType: "total_species_weight_by_month", parameter: calcMethod})
+            .$promise.then(handleCatchResponse);
     }
 
     function getYTitle(index){
@@ -40,48 +45,79 @@ var controller = function CatchSpeciesByLocationController($scope, $element, $at
         }
     }
 
+    function getItemsPerRow(index){
+        console.log("GETTING ITEMS PER ROW => "+index);
+        if(index == 0){
+            return 3;
+        }else if (index == 1) {
+            return 2;
+        }
+    }
+
     function updateData() {
         console.log("selected location => "+selectedLocation);
         console.log("selected calculation method => "+selectedCalculationMethod);
 
         Rx.Observable.from(responseData)
-            .filter(info => info[selectedCalculationMethod] != null)
-            .groupBy(info => info.landing_site__c)
-            .filter(locationGroup => locationGroup.key == selectedLocation)
-            .flatMap(aggregateLocation)
-            .toMap(x => x.species, x => x.totalKg)
+            .filter(info => info.landing_site__c == selectedLocation.toLowerCase().replace(' ', '_'))
+            .groupBy(info => info.month)
+            .flatMap(aggregateMonth)
+            .toArray()
+            .map(list => list.sort((a, b) => SpeciesUtil.speciesComparator(a, b, "key")))
             .subscribe(data => {
                 ctrl.dataMap = data;
                 ctrl.xTitle = "Species";
                 ctrl.yTitle = getYTitle(selectedCalculationMethodIndex);
+                ctrl.itemsperrow = getItemsPerRow(selectedCalculationMethodIndex);
             });
     }
 
     function handleCatchResponse(data) {
         console.log("@@@@ catch data received");
-        responseData = data;
+        ctrl.loading = false;
+        responseData = data.map(SpeciesUtil.truncDateToMonth)
+                        .map(SpeciesUtil.cleanAndCapitalise);
         console.log(data);
 
-        var locationGroupObs = Rx.Observable.from(data)
-            .groupBy(info => info.landing_site__c)
-            .map(locationGroup => locationGroup.key)
-            .toArray()
-            .subscribe(locationList => ctrl.locations = locationList);
+        ctrl.locations = d3.set(data, x => x.landing_site__c)
+                        .values()
+                        .map(StringUtil.cleanAndCapitalise)
+                        .sort(StringUtil.otherAtEndcomparator);
+
+        species = d3.set(data, x => x.species__c)
+                        .values()
+                        .map(StringUtil.cleanAndCapitalise)
+                        .sort(StringUtil.otherAtEndcomparator);
+
+        if(ctrl.locations.indexOf(ctrl.selectedLocation) === -1){
+            ctrl.selectedLocation = ctrl.locations[0];
+        }
+
+        ctrl.locationChange(ctrl.selectedLocation);
     }
 
-    function aggregateLocation(infoObs) {
-        console.log("AG loc");
-        var init = {species: '', totalKg: 0.0}
-        return infoObs
-            .groupBy(group => group.species__c)
-            .flatMap(sumSpecies);
+    function aggregateMonth(monthObs) {
+        var records = new Map();
+        for(var i = 0; i < species.length; i++){
+            records.set(species[i], 0);
+        }
+
+        return monthObs
+            .reduce(collectTotal, records)
+            .map(summedRecords => {
+                return createRecord(monthObs.key, summedRecords);
+            });
     }
 
-    function sumSpecies(speciesGroup) {
-        var init = {species: speciesGroup.key, totalKg: 0.0};
-        return speciesGroup.reduce((acc, entry) => {
-            acc.totalKg += entry[selectedCalculationMethod]; return acc;
-        }, init);
+    function collectTotal(acc, entry){
+        acc.set(entry.species__c, acc.get(entry.species__c)+entry[selectedCalculationMethod]);
+        return acc;
+    }
+
+    function createRecord(key, totals){
+        var rec = {key: key};
+        totals.forEach((v, k) => rec[k] = v);
+        return rec;
     }
 }
 

@@ -1,20 +1,25 @@
 <div>
+    <double-sided-toggle left-option="Weight" right-option="Quantity"
+        label="Calculate By:"
+        on-change="$ctrl.calculationToggleChange(value)">
+    </double-sided-toggle>
+
+    <br/>
+    <br/>
+
     <div class="list">
       <label class="item item-input item-select">
         <div class="input-label">
           Select Location:
         </div>
-        <select ng-options="location as location for location in $ctrl.locations"
-                    ng-model="selection" ng-change="$ctrl.monthChange(selection)"></select>
+        <select ng-options="location for location in $ctrl.locations"
+                    ng-model="$ctrl.selectedLocation" ng-change="$ctrl.locationChange($ctrl.selectedLocation)"></select>
       </label>
     </div>
     <br/>
 
-    <double-sided-toggle left-option="Weight" right-option="Quantity"
-        label="Calculate By:"
-        on-change="$ctrl.calculationToggleChange(value)"></double-sided-toggle>
-
     <div class = " ">
-        <bar-chart data="$ctrl.dataMap" xtitle="$ctrl.xTitle" ytitle="$ctrl.yTitle"></bar-chart>
+        <stacked-bar-chart data="$ctrl.dataMap" xtitle="$ctrl.xTitle" ytitle="$ctrl.yTitle" itemsperrow="$ctrl.itemsperrow"></stacked-bar-chart>
     </div>
+    <loading-overlay loading="$ctrl.loading"></loading-overlay>
 </div>
