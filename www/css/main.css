@@ -3,33 +3,47 @@
 }
 
 .double-sided-toggle{
-    width: 50%;
+    width: 50vh;
     display: inline-flex;
     font-size: large;
 }
 
 .double-sided-toggle span{
-    margin: 15px;
+    margin: 1px;
 }
 
 .no-border{
     border: none;
 }
 
-.toggle-dims{
-    height: 50px;
-    width: 80px;
-    padding-right: 0px;
+.toggle-label{
+    font-size: medium;
+    font-weight: bold;
+}
+
+.toggle-dims {
+    height: 40px;
+    width: 70px;
+    padding: 0px;
 }
 
 .toggle-dims .track{
     border-color: #11c1f3;
     background-color: #11c1f3;
+    height: 20px;
 }
 
-.toggle-label{
-    margin: 15px;
-    margin-right: 80px;
-    font-size: larger;
-    font-weight: bold;
+.toggle-dims .handle{
+    height: 24px;
+    top: 2px;
+}
+
+.toggle-small.item-toggle .toggle{
+    top: 4px;
+}
+
+.item-toggle .toggle {
+    right: 0px;
+    left: 10px;
+    top:10px
 }

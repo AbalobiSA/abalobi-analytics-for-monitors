@@ -1,19 +1,20 @@
 var mController = function StackedBarChartController($element, StringUtil){
     var ctrl = this;
     var legendSquareSize = 18;
+    DEFAULT_LEGEND_ITEMS_PER_ROW = 2;
 
     ctrl.$onInit = function() {
         // console.log("Init stacked bar chart");
         data = [];
         ytitle = "";
         xtitle = "";
+        itemsperrow = DEFAULT_LEGEND_ITEMS_PER_ROW;
 
         Object.defineProperty(ctrl, 'data', {
             get: function(){
                 return data;
             },
             set: function(newVal){
-                // console.log("new data given");
                 data = newVal;
                 display();
             }
@@ -39,21 +40,50 @@ var mController = function StackedBarChartController($element, StringUtil){
             }
         });
 
+        Object.defineProperty(ctrl, 'itemsperrow', {
+            get: function(){
+                return itemsperrow;
+            },
+            set: function(newVal){
+                console.log("setting IPR");
+                itemsperrow = newVal;
+                display();
+            }
+        });
+
         display();
     }
 
-    function getLengendSquareX(position, arr) {
-        return (position > 0)? d3.sum(arr.slice(0, position).map(label => label.length))*13 : 0
+    function getLegendSquareX(position, arr, itemsPerRow) {
+        return (position > 0)? d3.sum(arr.slice(0, position%itemsPerRow).map(label => label.length))*20   : 0;
+    }
+
+    function getLegendSquareY(position, offset, itemsPerRow) {
+        return offset+((2*legendSquareSize*Math.floor(position/itemsPerRow)));
+    }
+
+    function legendRowsNeeded(length, itemsPerRow) {
+        console.log("rows needed"+Math.ceil(length/itemsPerRow));
+        return Math.ceil(length/itemsPerRow);
     }
 
     function display() {
-        var margin = {top: 20, right: 20, bottom: 100, left: 60},
-            width = 600 - margin.left - margin.right,
-            height = 600 - margin.top - margin.bottom;
-
         var xValues = ctrl.data.map(record => record.key);
         var yValues = ctrl.data.map(record => d3.values(record).slice(1));
         var zValues = d3.keys(ctrl.data[0]).slice(1);
+
+        legendBuffer = legendRowsNeeded(zValues.length, ctrl.itemsperrow)*50;
+        var margin = {top: 20, right: 20, bottom: legendBuffer, left: 60},
+            width = 600
+            height = 450;
+
+        var xAxisTitleYPosition = height+50;
+        var legendYPostionStart = xAxisTitleYPosition+30;
+        var legendYPostionOffset = 0;
+
+        if(typeof ctrl.itemsperrow !== 'number'){
+            ctrl.itemsperrow = DEFAULT_LEGEND_ITEMS_PER_ROW;
+        }
 
         var x = d3.scaleBand()
                     .range([0, width])
@@ -90,7 +120,7 @@ var mController = function StackedBarChartController($element, StringUtil){
         d3.select(container).selectAll("*").remove();
         var svg = d3.select(container).append("svg")
             .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
+            .attr("height", height + margin.top + margin.bottom+50)
             .append("g")
             .attr("transform",
                   "translate(" + margin.left + "," + margin.top + ")");
@@ -109,7 +139,7 @@ var mController = function StackedBarChartController($element, StringUtil){
             .call(yAxis);
 
         svg.append("text")
-            .attr("y", 0+height+(margin.bottom/2))
+            .attr("y", xAxisTitleYPosition)
             .attr("x", width/2)
             // .attr("dy", "1em")
             .style("text-anchor", "middle")
@@ -139,22 +169,25 @@ var mController = function StackedBarChartController($element, StringUtil){
             .data(zValues)
             .enter().append("g")
             .attr("class", "legend")
-            .attr("transform", function(d, i) { return "translate(0," + height + ")"; })
+            .attr("transform", function(d, i) { return "translate(0," + legendYPostionStart + ")"; })
             .style("font", "12pt sans-serif");
 
         legend.append("rect")
-          .attr("x", (d,i) => getLengendSquareX(i, zValues))
-          .attr("y", margin.bottom/1.5)
+          .attr("x", (d,i) => getLegendSquareX(i, zValues, ctrl.itemsperrow))
+          .attr("y", (d,i) => getLegendSquareY(i, legendYPostionOffset, ctrl.itemsperrow))
           .attr("width", legendSquareSize)
           .attr("height", legendSquareSize)
           .attr("fill", z);
 
+
         legend.append("text")
-          .attr("x", (d,i) => getLengendSquareX(i, zValues)+24)
-          .attr("y", margin.bottom/1.5)
+          .attr("x", (d,i) => getLegendSquareX(i, zValues, ctrl.itemsperrow)+24)
+          .attr("y", (d,i) => getLegendSquareY(i, legendYPostionOffset, ctrl.itemsperrow))
           .attr("dy", "1em")
           .attr("text-anchor", "start")
           .text(StringUtil.cleanAndCapitalise);
+
+      console.log("ITEMS PER ROW = "+ctrl.itemsperrow);
     }
 }
 
@@ -166,6 +199,7 @@ angular.module('stackedBarChartModule')
         bindings: {
             data: '=?',
             xtitle: '=',
-            ytitle: '='
+            ytitle: '=',
+            itemsperrow: '=?'
         }
     });
