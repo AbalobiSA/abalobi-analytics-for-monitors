@@ -1,4 +1,4 @@
-var mController = function StackedBarChartController($element, StringUtil){
+var sbcController = function StackedBarChartController($element, StringUtil){
     var ctrl = this;
     var legendSquareSize = 18;
     DEFAULT_LEGEND_ITEMS_PER_ROW = 2;
@@ -63,7 +63,6 @@ var mController = function StackedBarChartController($element, StringUtil){
     }
 
     function legendRowsNeeded(length, itemsPerRow) {
-        console.log("rows needed"+Math.ceil(length/itemsPerRow));
         return Math.ceil(length/itemsPerRow);
     }
 
@@ -73,7 +72,7 @@ var mController = function StackedBarChartController($element, StringUtil){
         var zValues = d3.keys(ctrl.data[0]).slice(1);
 
         legendBuffer = legendRowsNeeded(zValues.length, ctrl.itemsperrow)*50;
-        var margin = {top: 20, right: 20, bottom: legendBuffer, left: 60},
+        var margin = {top: 20, right: 20, bottom: legendBuffer, left: 80},
             width = 600
             height = 450;
 
@@ -186,8 +185,6 @@ var mController = function StackedBarChartController($element, StringUtil){
           .attr("dy", "1em")
           .attr("text-anchor", "start")
           .text(StringUtil.cleanAndCapitalise);
-
-      console.log("ITEMS PER ROW = "+ctrl.itemsperrow);
     }
 }
 
@@ -195,7 +192,7 @@ var mController = function StackedBarChartController($element, StringUtil){
 angular.module('stackedBarChartModule')
     .component('stackedBarChart', {
         templateUrl: 'js/bar-chart/bar-chart.template.html',
-        controller: mController,
+        controller: sbcController,
         bindings: {
             data: '=?',
             xtitle: '=',
