@@ -8,7 +8,7 @@
 var app = angular.module('app', ['ionic',
         'monthlyCatchSpecies', 'monthlyBoatDistributionModule', 'monthlyCatchSpeciesByBoatTypeModule',
         'submissionsByMonthLocationModule', 'catchSpeciesByLocationModule',
-        'sampleAveragesByLocationModule', 'utilsModule',
+        'sampleAveragesByLocationModule', 'utilsModule', 'monthlyCatchSpeciesByPermitTypeModule',
         'app.controllers', 'app.directives', 'app.routes', 'app.services']);
 
 app.run(function($ionicPlatform) {

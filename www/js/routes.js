@@ -74,6 +74,15 @@ angular.module('app.routes', [])
         }
     })
 
+    .state('menu.chart_7', {
+        url: '/chart_7',
+        views: {
+            'side-menu21': {
+                templateUrl: 'templates/chart_7.html'
+            }
+        }
+    })
+
     .state('menu', {
         url: '/side-menu21',
         templateUrl: 'templates/menu.html',

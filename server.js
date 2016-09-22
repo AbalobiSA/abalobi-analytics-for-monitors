@@ -100,6 +100,26 @@ app.get('/api/get', function(req, res){
             );
         }
 
+        else if (req.query.id == "total_species_weight_by_month_by_permit_type"){
+            if(req.query.param == "weight_total"){
+                columnName = "weight_kg__c";
+            }else if (req.query.param == "numbers_total") {
+                columnName = "num_items__c";
+            }
+            query =  client.query(
+                "SELECT date_trunc('month', odk_date__c) + interval '3 hours' AS year_month, landing_site__c, "+
+                "species__c, coalesce(main_fisher_other_permit_type__c, 'no_permit') as permit_type, "+
+                "SUM("+columnName+") as "+req.query.param+" FROM salesforce.ablb_monitor_catch__c "+
+                "INNER JOIN salesforce.ablb_monitor_trip__c "+
+                "ON salesforce.ablb_monitor_trip__c.odk_uuid__c = salesforce.ablb_monitor_catch__c.odk_parent_uuid__c "+
+                "INNER JOIN salesforce.ablb_monitor_day__c "+
+                "ON salesforce.ablb_monitor_day__c.odk_uuid__c = salesforce.ablb_monitor_trip__c.odk_parent_uuid__c "+
+                "WHERE "+columnName+" IS NOT NULL "+
+                "GROUP BY landing_site__c, year_month, species__c, permit_type "+
+                "ORDER BY landing_site__c, year_month, species__c, permit_type;"
+            );
+        }
+
 
         else if (req.query.id == "total_boat_types_by_month"){
             //TODO: NOte that either main_fisher_id__c (abalobi-registered fisher) OR main_fisher_other__c (non-registered) will be populated, not both)
