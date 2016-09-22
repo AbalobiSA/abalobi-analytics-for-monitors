@@ -101,14 +101,17 @@ app.get('/api/get', function(req, res){
         }
 
 
-        else if (req.query.id == "total-boat-types-by-month"){
+        else if (req.query.id == "total_boat_types_by_month"){
             //TODO: NOte that either main_fisher_id__c (abalobi-registered fisher) OR main_fisher_other__c (non-registered) will be populated, not both)
-            query =  client.query('SELECT odk_date__c, main_fisher_id__c, '+
-            'boat_id__c, boat_role__c, landing_site__c, gps_lat__c, '+
-            'gps_lon__c, num_boats_local__c, num_boats_outside_ski__c, '+
-            'num_boats_sport__c FROM salesforce.ablb_monitor_trip__c '+
-            'INNER JOIN salesforce.ablb_monitor_day__c ON '+
-            'salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid LIMIT 50;');
+            query =  client.query(
+                "SELECT date_trunc('month', odk_date__c)+interval '3 hour' AS year_month, "+
+                "landing_site__c, coalesce(boat_type__c, 'unknown') as boat_type, COUNT(*) "+
+                "FROM salesforce.ablb_monitor_trip__c "+
+                "INNER JOIN salesforce.ablb_monitor_day__c ON "+
+                "salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid "+
+                "GROUP BY year_month, landing_site__c, boat_type__c "+
+                "ORDER BY year_month, landing_site__c LIMIT "+queryLimit+";"
+            );
         }
 
         else if(req.query.id == "submissions_by_month_by_location"){
@@ -116,7 +119,7 @@ app.get('/api/get', function(req, res){
                 "SELECT date_trunc('month', odk_date__c)+interval '3 hour' AS year_month, landing_site__c, COUNT(*) "+
                 "FROM salesforce.ablb_monitor_day__c "+
                 "GROUP BY year_month, landing_site__c "+
-                "ORDER BY year_month, landing_site__c;"
+                "ORDER BY year_month, landing_site__c LIMIT "+queryLimit+";"
             );
         }
 

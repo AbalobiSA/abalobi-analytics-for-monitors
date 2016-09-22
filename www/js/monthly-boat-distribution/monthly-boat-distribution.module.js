@@ -1,1 +1,2 @@
-angular.module('monthlyBoatDistributionModule', ['monitorData', 'stackedBarChartModule']);
+angular.module('monthlyBoatDistributionModule', ['monitorData', 'loadingOverlayModule',
+                            'stackedBarChartModule']);
