@@ -1,4 +1,4 @@
-var asd = function doubleSidedToggleController($element, $attrs) {
+var dstController = function doubleSidedToggleController($element, $attrs) {
     var ctrl = this;
 
     ctrl.change = function(value) {
@@ -12,7 +12,7 @@ var asd = function doubleSidedToggleController($element, $attrs) {
 angular.module('doubleSidedToggleModule')
     .component('doubleSidedToggle', {
         templateUrl: 'js/double-sided-toggle/double-sided-toggle.template.html',
-        controller: asd,
+        controller: dstController,
         bindings: {
             label: '@',
             leftOption: '@',

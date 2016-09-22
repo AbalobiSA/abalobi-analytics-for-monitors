@@ -1,4 +1,4 @@
-var controller = function sampleAveragesByLocationController(MonitorResource, SpeciesUtil, StringUtil) {
+var sablController = function sampleAveragesByLocationController(MonitorResource, SpeciesUtil, StringUtil) {
 
     var ctrl = this;
     var responseData;
@@ -10,7 +10,6 @@ var controller = function sampleAveragesByLocationController(MonitorResource, Sp
     ctrl.locations = [];
 
     ctrl.$onInit = function() {
-        console.log("init");
         selectedCalculationMethod = calculationSelectionKeys[selectedCalculationMethodIndex];
         requestData(selectedCalculationMethod)
     }
@@ -43,7 +42,6 @@ var controller = function sampleAveragesByLocationController(MonitorResource, Sp
     }
 
     function requestData(calcMethod){
-        console.log("requestData");
         ctrl.loading = true;
         MonitorResource.query({queryType: "samples_query", parameter: calcMethod})
             .$promise.then(handleCatchResponse);
@@ -82,8 +80,6 @@ var controller = function sampleAveragesByLocationController(MonitorResource, Sp
             .toMap(x => x.species__c, x => x[selectedCalculationMethod])
             .subscribe(data => {
                 ctrl.dataMap = data
-                console.log("data to chart");
-                console.log(data);
                 ctrl.xTitle = "Species";
                 ctrl.yTitle = getYTitle(selectedCalculationMethodIndex);
             });
@@ -119,9 +115,9 @@ var controller = function sampleAveragesByLocationController(MonitorResource, Sp
 
     function getYTitle(index){
         if(index == 0){
-            return "Average Length (CM)";
+            return "Average Length (cm)";
         }else if (index == 1) {
-            return "Average Weight (KG)";
+            return "Average Weight (kg)";
         }
     }
 
@@ -136,5 +132,5 @@ var controller = function sampleAveragesByLocationController(MonitorResource, Sp
 angular.module('sampleAveragesByLocationModule')
     .component('sampleAveragesByLocation', {
         templateUrl: 'js/sample-averages-by-location/sample-averages-by-location.template.html',
-        controller: controller
+        controller: sablController
     });

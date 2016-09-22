@@ -1,4 +1,4 @@
-var mController = function BarChartController($element){
+var bcController = function BarChartController($element){
     var ctrl = this;
     ctrl.$onInit = function() {
 
@@ -92,18 +92,15 @@ var mController = function BarChartController($element){
             .call(xAxis)
             .selectAll("text")
             .style("text-anchor", "middle")
-            // .attr("dx", "-1.8em");
             .attr("dy", "1.55em");
 
         svg.append("g")
             .attr("class", "y-axis")
             .call(yAxis);
 
-        console.log("x title => "+ctrl.xtitle);
         svg.append("text")
             .attr("y", 0+height+(margin.bottom/2))
             .attr("x", width/2)
-            // .attr("dy", "1em")
             .style("text-anchor", "middle")
             .text(ctrl.xtitle);
 
@@ -129,7 +126,7 @@ var mController = function BarChartController($element){
 angular.module('barChartModule')
     .component('barChart', {
         templateUrl: 'js/bar-chart/bar-chart.template.html',
-        controller: mController,
+        controller: bcController,
         bindings: {
             data: '=?',
             xtitle: '=',

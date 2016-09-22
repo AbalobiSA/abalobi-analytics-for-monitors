@@ -1,4 +1,4 @@
-var controller = function MonthlyCatchSpeciesByBoatTypeController(MonitorResource, SpeciesUtil, StringUtil) {
+var mcsbbtController = function MonthlyCatchSpeciesByBoatTypeController(MonitorResource, SpeciesUtil, StringUtil) {
 
     var ctrl = this;
     var responseData;
@@ -35,7 +35,6 @@ var controller = function MonthlyCatchSpeciesByBoatTypeController(MonitorResourc
 
     // calculation method changed (By weight or by numbers caught)
     ctrl.calculationToggleChange = function(value){
-        console.log("toggle update => "+value);
         if(value == false){
             selectedCalculationMethodIndex = 0
         } else {
@@ -64,7 +63,7 @@ var controller = function MonthlyCatchSpeciesByBoatTypeController(MonitorResourc
 
     function getYTitle(index){
         if(index == 0){
-            return "Weight (KG)";
+            return "Weight (kg)";
         }else if (index == 1) {
             return "Quantity Caught";
         }
@@ -84,12 +83,9 @@ var controller = function MonthlyCatchSpeciesByBoatTypeController(MonitorResourc
             .groupBy(info => info.species__c)
             .flatMap(aggregateSpecies)
             .toArray()
-            .doOnNext(s => console.log(s))
             .map(list => list.sort((a, b) => SpeciesUtil.speciesComparator(a, b, "key")))
             .subscribe(data => {
                 ctrl.dataMap = data;
-                console.log("data to stacked bar chart");
-                console.log(data);
                 ctrl.xTitle = "Species";
                 ctrl.yTitle = getYTitle(selectedCalculationMethodIndex);
             });
@@ -153,5 +149,5 @@ var controller = function MonthlyCatchSpeciesByBoatTypeController(MonitorResourc
 angular.module('monthlyCatchSpeciesByBoatTypeModule')
     .component('monthlyCatchSpeciesByBoatTypeData', {
         templateUrl: 'js/monthly-catch-species-by-boat-type/monthly-catch-species-by-boat-type.html',
-        controller: controller
+        controller: mcsbbtController
     });

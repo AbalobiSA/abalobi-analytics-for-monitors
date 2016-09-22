@@ -1,6 +1,6 @@
 var responseData;
 
-var controller = function MonthlyCatchSpeciesController($scope, MonitorResource, SpeciesUtil) {
+var mcsController = function MonthlyCatchSpeciesController($scope, MonitorResource, SpeciesUtil) {
 
     var ctrl = this;
     var selectedMonth;
@@ -21,7 +21,6 @@ var controller = function MonthlyCatchSpeciesController($scope, MonitorResource,
 
     // calculation method changed (By weight or by numbers caught)
     ctrl.calculationToggleChange = function(value){
-        console.log("toggle update => "+value);
         if(value == false){
             selectedCalculationMethodIndex = 0
         } else {
@@ -39,7 +38,7 @@ var controller = function MonthlyCatchSpeciesController($scope, MonitorResource,
 
     function getYTitle(index){
         if(index == 0){
-            return "Weight (KG)";
+            return "Weight (kg)";
         }else if (index == 1) {
             return "Quantity Caught";
         }
@@ -54,7 +53,6 @@ var controller = function MonthlyCatchSpeciesController($scope, MonitorResource,
             .flatMap(list => Rx.Observable.from(list))
             .toMap(item => item.species__c, item => item[selectedCalculationMethod])
             .subscribe(data => {
-                console.log(data);
                 ctrl.dataMap = data;
                 ctrl.xTitle = "Species";
                 ctrl.yTitle = getYTitle(selectedCalculationMethodIndex);
@@ -75,5 +73,5 @@ var controller = function MonthlyCatchSpeciesController($scope, MonitorResource,
 angular.module('monthlyCatchSpecies')
     .component('monthlyCatchSpeciesData', {
         templateUrl: 'js/monthly-catch-species/monthly-catch-species.html',
-        controller: controller
+        controller: mcsController
     });

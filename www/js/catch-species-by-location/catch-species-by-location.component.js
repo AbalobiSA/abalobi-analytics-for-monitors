@@ -1,4 +1,4 @@
-var controller = function CatchSpeciesByLocationController(MonitorResource, SpeciesUtil, StringUtil) {
+var csblController = function CatchSpeciesByLocationController(MonitorResource, SpeciesUtil, StringUtil) {
 
     var ctrl = this;
     var responseData;
@@ -21,7 +21,6 @@ var controller = function CatchSpeciesByLocationController(MonitorResource, Spec
 
     // calculation method changed (By weight or by numbers caught)
     ctrl.calculationToggleChange = function(value){
-        console.log("toggle update => "+value);
         if(value == false){
             selectedCalculationMethodIndex = 0
         } else {
@@ -39,14 +38,13 @@ var controller = function CatchSpeciesByLocationController(MonitorResource, Spec
 
     function getYTitle(index){
         if(index == 0){
-            return "Weight (KG)";
+            return "Weight (kg)";
         }else if (index == 1) {
             return "Quantity Caught";
         }
     }
 
     function getItemsPerRow(index){
-        console.log("GETTING ITEMS PER ROW => "+index);
         if(index == 0){
             return 3;
         }else if (index == 1) {
@@ -77,7 +75,6 @@ var controller = function CatchSpeciesByLocationController(MonitorResource, Spec
         ctrl.loading = false;
         responseData = data.map(SpeciesUtil.truncDateToMonth)
                         .map(SpeciesUtil.cleanAndCapitalise);
-        console.log(data);
 
         ctrl.locations = d3.set(data, x => x.landing_site__c)
                         .values()
@@ -124,5 +121,5 @@ var controller = function CatchSpeciesByLocationController(MonitorResource, Spec
 angular.module('catchSpeciesByLocationModule')
     .component('catchSpeciesByLocation', {
         templateUrl: 'js/catch-species-by-location/catch-species-by-location.template.html',
-        controller: controller
+        controller: csblController
     });
