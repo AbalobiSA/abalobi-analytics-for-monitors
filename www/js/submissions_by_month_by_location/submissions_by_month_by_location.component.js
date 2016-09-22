@@ -1,9 +1,7 @@
-var catchQuerySubject = new Rx.Subject();
-var responseData;
-
-var controller = function submissionsByMonthLocationController(MonitorResource, SpeciesUtil, StringUtil) {
+var sbmlController = function submissionsByMonthLocationController(MonitorResource, SpeciesUtil, StringUtil) {
 
     var ctrl = this;
+    var responseData;
 
     ctrl.$onInit = function() {
         requestData();
@@ -23,7 +21,6 @@ var controller = function submissionsByMonthLocationController(MonitorResource, 
 
     function updateData() {
         Rx.Observable.from(responseData)
-            .map(SpeciesUtil.truncDateToMonth)
             .filter(info => info.landing_site__c == selectedLocation.toLowerCase().replace(' ', '_'))
             .toMap(x => x.month, x => parseInt(x.count))
             .subscribe(data => {
@@ -35,7 +32,7 @@ var controller = function submissionsByMonthLocationController(MonitorResource, 
 
     function handleCatchResponse(data) {
         console.log("@@@@ submission history received");
-        responseData = data;
+        responseData = data.map(SpeciesUtil.truncDateToMonth);
 
         ctrl.loading = false;
 
@@ -52,5 +49,5 @@ var controller = function submissionsByMonthLocationController(MonitorResource, 
 angular.module('submissionsByMonthLocationModule')
     .component('submissionsByMonthLocation', {
         templateUrl: 'js/submissions_by_month_by_location/submissions_by_month_by_location.template.html',
-        controller: controller
+        controller: sbmlController
     });
