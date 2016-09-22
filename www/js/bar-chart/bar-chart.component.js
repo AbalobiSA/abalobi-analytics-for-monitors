@@ -41,8 +41,10 @@ var bcController = function BarChartController($element){
 
     function display() {
         var margin = {top: 20, right: 20, bottom: 100, left: 60},
-            width = 600 - margin.left - margin.right,
-            height = 600 - margin.top - margin.bottom;
+            width = 600,
+            height = 450;
+
+        var xAxisTitleYPosition = height+70;
 
         var x = d3.scaleBand()
                     .range([0, width])
@@ -50,6 +52,7 @@ var bcController = function BarChartController($element){
                     .padding(0.1);
 
         var y = d3.scaleLinear().range([height, 0]);
+
 
         var xValues = {};
         var yValues = {};
@@ -92,14 +95,14 @@ var bcController = function BarChartController($element){
             .call(xAxis)
             .selectAll("text")
             .style("text-anchor", "middle")
-            .attr("dy", "1.55em");
+            .attr("transform", "translate(-15, 22) rotate(-65)")
 
         svg.append("g")
             .attr("class", "y-axis")
             .call(yAxis);
 
         svg.append("text")
-            .attr("y", 0+height+(margin.bottom/2))
+            .attr("y", 0+xAxisTitleYPosition)
             .attr("x", width/2)
             .style("text-anchor", "middle")
             .text(ctrl.xtitle);

@@ -4,7 +4,6 @@ var sbcController = function StackedBarChartController($element, StringUtil){
     DEFAULT_LEGEND_ITEMS_PER_ROW = 2;
 
     ctrl.$onInit = function() {
-        // console.log("Init stacked bar chart");
         data = [];
         ytitle = "";
         xtitle = "";
@@ -76,7 +75,7 @@ var sbcController = function StackedBarChartController($element, StringUtil){
             width = 600
             height = 450;
 
-        var xAxisTitleYPosition = height+50;
+        var xAxisTitleYPosition = height+70;
         var legendYPostionStart = xAxisTitleYPosition+30;
         var legendYPostionOffset = 0;
 
@@ -105,7 +104,6 @@ var sbcController = function StackedBarChartController($element, StringUtil){
         y.domain([0, d3.max(yValues, function(d) { return d3.sum(d); })]).nice();
         z.domain(zValues);
 
-        // var data = d3.zip(xValues, yValues);
         var xAxis = d3.axisBottom()
             .scale(x)
             .tickValues(xValues);
@@ -130,8 +128,7 @@ var sbcController = function StackedBarChartController($element, StringUtil){
             .call(xAxis)
             .selectAll("text")
             .style("text-anchor", "middle")
-            // .attr("dx", "-1.8em");
-            .attr("dy", "1.55em");
+            .attr("transform", "translate(-15, 22) rotate(-65)")
 
         svg.append("g")
             .attr("class", "y-axis")
@@ -140,7 +137,6 @@ var sbcController = function StackedBarChartController($element, StringUtil){
         svg.append("text")
             .attr("y", xAxisTitleYPosition)
             .attr("x", width/2)
-            // .attr("dy", "1em")
             .style("text-anchor", "middle")
             .text(ctrl.xtitle);
 
