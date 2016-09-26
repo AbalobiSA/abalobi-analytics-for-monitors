@@ -65,7 +65,7 @@
         }
 
         function legendRowsNeeded(length, itemsPerRow) {
-            return Math.ceil(length/itemsPerRow);
+            return (length < itemsPerRow)? 2 : Math.ceil(length/itemsPerRow)+1;
         }
 
         function display() {

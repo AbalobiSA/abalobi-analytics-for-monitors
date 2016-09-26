@@ -66,7 +66,7 @@
                 .flatMap(aggregateMonth)
                 .toArray()
                 .map(list => list.sort((a, b) => SpeciesUtil.speciesComparator(a, b, "key")))
-                .map(data => ResultsUtil.applyMapThreshold(data, 0))
+                .map(data => ResultsUtil.applyMapThreshold(data, 0.001))
                 .subscribe(data => {
                     ctrl.dataMap = data;
                     ctrl.xTitle = "Species";

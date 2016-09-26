@@ -1,7 +1,7 @@
 (function() {
     'use strict';
-    
-    var mbdController = function monthlyBoatDistributionController(MonitorResource, SpeciesUtil, StringUtil) {
+
+    var mbdController = function monthlyBoatDistributionController(MonitorResource, SpeciesUtil, StringUtil, ResultsUtil) {
 
         var ctrl = this;
         var responseData;
@@ -22,6 +22,7 @@
                 .groupBy(info => info.month)
                 .flatMap(aggregateBoatType)
                 .toArray()
+                .map(data => ResultsUtil.applyMapThreshold(data, 0.001))
                 .subscribe(x => {
                     ctrl.data = x;
                     ctrl.xTitle = 'Month';
@@ -88,5 +89,5 @@
             templateUrl: 'js/monthly-boat-distribution/monthly-boat-distribution.template.html',
             controller: mbdController
         });
-    mbdController.$inject = ["MonitorResource", "SpeciesUtil", "StringUtil"];
+    mbdController.$inject = ["MonitorResource", "SpeciesUtil", "StringUtil", "ResultsUtil"];
 })();

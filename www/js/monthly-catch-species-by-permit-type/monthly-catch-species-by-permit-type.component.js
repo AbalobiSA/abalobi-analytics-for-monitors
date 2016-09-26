@@ -1,7 +1,7 @@
 (function(){
     'use strict';
 
-    var mcsbptController = function MonthlyCatchSpeciesByPermitTypeController(MonitorResource, SpeciesUtil, StringUtil) {
+    var mcsbptController = function MonthlyCatchSpeciesByPermitTypeController(MonitorResource, SpeciesUtil, StringUtil, ResultsUtil) {
 
         var ctrl = this;
         var responseData;
@@ -86,6 +86,7 @@
                 .groupBy(info => info.species__c)
                 .flatMap(aggregateSpecies)
                 .toArray()
+                .map(data => ResultsUtil.applyMapThreshold(data, 0.001))
                 .map(list => list.sort((a, b) => SpeciesUtil.speciesComparator(a, b, "key")))
                 .subscribe(data => {
                     ctrl.dataMap = data;
@@ -154,5 +155,5 @@
             templateUrl: 'js/monthly-catch-species-by-permit-type/monthly-catch-species-by-permit-type.template.html',
             controller: mcsbptController
         });
-    mcsbptController.$inject = ["MonitorResource", "SpeciesUtil", "StringUtil"];
+    mcsbptController.$inject = ["MonitorResource", "SpeciesUtil", "StringUtil", "ResultsUtil"];
 })();
