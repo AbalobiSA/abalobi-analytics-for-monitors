@@ -199,7 +199,7 @@
 
     angular.module('stackedBarChartModule')
         .component('stackedBarChart', {
-            templateUrl: 'js/bar-chart/bar-chart.template.html',
+            templateUrl: 'js/stacked-bar-chart/stacked-bar-chart.template.html',
             controller: sbcController,
             bindings: {
                 data: '=?',
