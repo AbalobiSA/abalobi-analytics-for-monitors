@@ -17,7 +17,7 @@
 
         ctrl.$onInit = function() {
             selectedCalculationMethod = calculationSelectionKeys[selectedCalculationMethodIndex];
-            requestData(selectedCalculationMethod)
+            requestData(selectedCalculationMethod);
         }
 
         //month selection has been changed
@@ -39,12 +39,12 @@
         // calculation method changed (By weight or by numbers caught)
         ctrl.calculationToggleChange = function(value){
             if(value == false){
-                selectedCalculationMethodIndex = 0
+                selectedCalculationMethodIndex = 0;
             } else {
-                selectedCalculationMethodIndex = 1
+                selectedCalculationMethodIndex = 1;
             }
             selectedCalculationMethod = calculationSelectionKeys[selectedCalculationMethodIndex];
-            requestData(selectedCalculationMethod)
+            requestData(selectedCalculationMethod);
         }
 
         function requestData(calcMethod){
@@ -156,5 +156,5 @@
             controller: mcsbbtController
         });
 
-    mcsbbtController.$inject = ["MonitorResource", "SpeciesUtil", "StringUtil", "ResultsUtil"]
+    mcsbbtController.$inject = ["MonitorResource", "SpeciesUtil", "StringUtil", "ResultsUtil"];
 })();

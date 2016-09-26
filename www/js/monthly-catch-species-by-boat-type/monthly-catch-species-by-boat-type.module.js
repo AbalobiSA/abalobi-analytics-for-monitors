@@ -1,2 +1,2 @@
 angular.module('monthlyCatchSpeciesByBoatTypeModule', ['doubleSidedToggleModule',
-                'loadingOverlayModule', 'monitorData', 'stackedBarChartModule', ]);
+                'loadingOverlayModule', 'monitorData', 'stackedBarChartModule']);
