@@ -68,7 +68,16 @@ var sbcController = function StackedBarChartController($element, StringUtil){
     function display() {
         var xValues = ctrl.data.map(record => record.key);
         var yValues = ctrl.data.map(record => d3.values(record).slice(1));
-        var zValues = d3.keys(ctrl.data[0]).slice(1);
+        
+        // get all possible z values from all entries
+        // for hetrogenous categories
+        var zValues = ctrl.data.reduce((set, item) => {
+            d3.keys(item).slice(1)
+                .forEach(property => set.add(property));
+            return set;
+        }, d3.set());
+
+        zValues = zValues.values();
 
         legendBuffer = legendRowsNeeded(zValues.length, ctrl.itemsperrow)*50;
         var margin = {top: 20, right: 20, bottom: legendBuffer, left: 80},
@@ -156,8 +165,8 @@ var sbcController = function StackedBarChartController($element, StringUtil){
             .data(d => d)
             .enter().append("rect")
             .attr("x", d => x(d.data.key))
-            .attr("y", d => y(d[1]))
-            .attr("height", d => y(d[0]) - y(d[1]))
+            .attr("y", d => (isNaN(y(d[1])))? 0:y(d[1]))    //if value doesn't exist in y domain return 0
+            .attr("height", d => (isNaN(y(d[0]) - y(d[1])))? 0: y(d[0]) - y(d[1]))
             .attr("width", x.bandwidth());
 
         var legend = svg.selectAll(".legend")
