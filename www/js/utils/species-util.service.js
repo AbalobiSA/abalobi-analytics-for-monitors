@@ -17,11 +17,15 @@
 
                 // Sorts the items according to species pushing "Other"
                 // to the end of the list
-                speciesComparator: function (a, b, accessor) {
+                speciesComparator: function (a, b, accessor = 'species__c') {
                     accessor = (typeof accessor !== 'number')? accessor: 'species__c';
-                    if(a[accessor] == "Other" || a[accessor] > b[accessor]) {
+                    if(a[accessor] == "Other") {
                         return 1;
-                    }else if(b[accessor] == "Other" || a[accessor] < b[accessor]){
+                    }else if(b[accessor] == "Other"){
+                        return -1;
+                    }else if (a[accessor] > b[accessor]) {
+                        return 1;
+                    }else if (a[accessor] < b[accessor]) {
                         return -1;
                     }
                     return 0;
