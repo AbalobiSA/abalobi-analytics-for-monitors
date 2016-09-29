@@ -36,7 +36,7 @@
 
         function requestData(calcMethod){
             ctrl.loading = true;
-            MonitorResource.query({queryType: "total_species_weight_by_month", parameter: calcMethod})
+            MonitorResource.query({queryType: "total_species_weight_by_location", parameter: calcMethod})
                 .$promise.then(handleCatchResponse);
         }
 
