@@ -7,14 +7,6 @@ app.use(express.static('www'));
 app.set('port', process.env.PORT || 5001);
 app.listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
-
-    console.log("DEBUG CLIENT ID: " + process.env.AUTH0_CLIENT_ID);
-    console.log("DEBUG SECRET KEY: " + Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64'));
-
-    if (process.env.AUTH0_CLIENT_ID == "3MVG9Rd3qC6oMalVJmPxztlB4AzGOt6jEoNustd4tBdglVHLpl5g6KFEIynOYVQQRpCULdCDq3UeHbBtvm.MA")
-    {
-      console.log("KEYS MATCH!!!!!!");
-    }
 })
 
 const jwt = require('express-jwt');
