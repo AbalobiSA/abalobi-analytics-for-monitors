@@ -11,6 +11,11 @@ app.listen(app.get('port'), function () {
 
 const jwt = require('express-jwt');
 
+// const authenticate = jwt({
+//   secret: new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64'),
+//   audience: process.env.AUTH0_CLIENT_ID
+// });
+
 const authenticate = jwt({
   secret: new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64'),
   audience: process.env.AUTH0_CLIENT_ID
@@ -19,7 +24,7 @@ const authenticate = jwt({
 app.use(cors());
 
 //secure GET API
-//app.use('/api/get', authenticate)
+app.use('/api/get', authenticate)
 
 const pg = require('pg');
 const Pool = pg.Pool;
