@@ -24,7 +24,7 @@ const authenticate = jwt({
 app.use(cors());
 
 //secure GET API
-app.use('/api/get', authenticate)
+// app.use('/api/get', authenticate)
 
 // app.use('/', authenticate)
 
