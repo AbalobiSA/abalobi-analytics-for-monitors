@@ -4,11 +4,30 @@
 
 angular.module('app.controllers', [])
 
-.controller('HomeCtrl', function($scope , $http, pgData) {
+.controller('loginCtrl', function($scope , $state, $http, pgData) {
 
     $scope.go = function(){
 
     }
+
+    $scope.login = function(){
+      $state.go("menu.home");
+    }
+
+
+})
+
+
+
+
+
+.controller('HomeCtrl', function($scope , $http, pgData, $state) {
+
+    $scope.go = function(){
+
+    }
+
+
 
 
 })

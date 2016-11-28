@@ -8,6 +8,12 @@ angular.module('app.routes', [])
     // Each state's controller can be found in controllers.js
     $stateProvider
 
+    .state('login', {
+        url: '/login',
+        templateUrl: 'templates/login.html',
+        controller: 'loginCtrl'
+    })
+
     .state('menu.home', {
         url: '/home',
         views: {
@@ -89,7 +95,7 @@ angular.module('app.routes', [])
         abstract:true
     })
 
-    $urlRouterProvider.otherwise('/side-menu21/home')
+    $urlRouterProvider.otherwise('/login')
 
 
 
