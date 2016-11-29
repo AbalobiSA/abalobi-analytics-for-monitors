@@ -1,6 +1,6 @@
-angular.module('app.routes', [])
+angular.module('app.routes', ['auth0.lock', 'angular-jwt', 'ui.router'])
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, lockProvider, $urlRouterProvider) {
 
     // Ionic uses AngularUI Router which uses the concept of states
     // Learn more here: https://github.com/angular-ui/ui-router
@@ -93,9 +93,14 @@ angular.module('app.routes', [])
         url: '/side-menu21',
         templateUrl: 'templates/menu.html',
         abstract:true
-    })
+    });
 
-    $urlRouterProvider.otherwise('/login')
+    lockProvider.init({
+      clientID: 'FkmlnBqFVdI4psENfGQeSG5PNa96H3f4',
+      domain: 'app56729554.eu.auth0.com'
+    });
+
+    $urlRouterProvider.otherwise('/login');
 
 
 
