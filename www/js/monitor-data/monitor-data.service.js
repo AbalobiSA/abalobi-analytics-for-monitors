@@ -12,11 +12,12 @@
         function($resource) {
           var currentAuth = localStorage.getItem('id_token');
           console.log("CURRENT ID TOKEN IS " + currentAuth);
+          var httpAuthString = "Bearer " + currentAuth;
             return $resource(API_URL+'?id=:queryType&param=:parameter', {}, {
                 query: {
                   method: 'GET',
                   isArray: true,
-                  authorization: "Bearer " + currentAuth
+                  authorization: httpAuthString
                 }
             });
         }
