@@ -94,7 +94,7 @@ angular.module('app.controllers', [])
     $http({
             method: 'GET',
             url: 'https://abalobi-analytics-for-monitors.herokuapp.com/api/get/',
-            Authorization: 'Bearer ' + auth_token
+            authorization: 'Bearer ' + auth_token
 
 
         }).success(function(data) {
