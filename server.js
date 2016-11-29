@@ -37,9 +37,9 @@ try {
 app.use(cors());
 
 //secure GET API
-// app.use('/api/get', authenticate)
+app.use('/api/get', authenticate)
 
-app.use('/', authenticate)
+// app.use('/', authenticate)
 
 
 const pg = require('pg');
