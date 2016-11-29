@@ -22,3 +22,20 @@ angular.module('app.services', [])
 
     return userinfo
 }])
+
+.factory('authorizer', ['$state', function($state){
+  return{
+      checkAuthentication: function($state, locationString){
+          var token = localStorage.getItem('id_token');
+          if (token == null) {
+              $state.go("login");
+          } else {
+            if (locationString == null){
+              //$state.go("menu.home");
+            } else{
+              $state.go(locationString);
+            }
+          }
+      }
+    };
+}]);

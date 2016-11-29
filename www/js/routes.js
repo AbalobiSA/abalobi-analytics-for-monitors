@@ -20,7 +20,12 @@ angular.module('app.routes', ['auth0.lock', 'angular-jwt', 'ui.router'])
             'side-menu21': {
                 templateUrl: 'templates/home.html',
                 controller: 'HomeCtrl'
+
             }
+        },
+        controllerAs: 'vm',
+        data: {
+          reqiresLogin: true
         }
     })
 
@@ -28,7 +33,8 @@ angular.module('app.routes', ['auth0.lock', 'angular-jwt', 'ui.router'])
         url: '/chart_1',
         views: {
             'side-menu21': {
-                templateUrl: 'templates/chart_1.html'
+                templateUrl: 'templates/chart_1.html',
+                controller: 'simpleAuthChecker'
             }
         }
     })
@@ -37,7 +43,8 @@ angular.module('app.routes', ['auth0.lock', 'angular-jwt', 'ui.router'])
         url: '/chart_2',
         views: {
             'side-menu21': {
-                templateUrl: 'templates/chart_2.html'
+                templateUrl: 'templates/chart_2.html',
+                controller: 'simpleAuthChecker'
             }
         }
     })
@@ -48,7 +55,8 @@ angular.module('app.routes', ['auth0.lock', 'angular-jwt', 'ui.router'])
         url: '/chart_3',
         views: {
             'side-menu21': {
-                templateUrl: 'templates/chart_3.html'
+                templateUrl: 'templates/chart_3.html',
+                controller: 'simpleAuthChecker'
             }
         }
     })
@@ -57,7 +65,8 @@ angular.module('app.routes', ['auth0.lock', 'angular-jwt', 'ui.router'])
         url: '/chart_4',
         views: {
             'side-menu21': {
-                templateUrl: 'templates/chart_4.html'
+                templateUrl: 'templates/chart_4.html',
+                controller: 'simpleAuthChecker'
             }
         }
     })
@@ -66,7 +75,8 @@ angular.module('app.routes', ['auth0.lock', 'angular-jwt', 'ui.router'])
         url: '/chart_5',
         views: {
             'side-menu21': {
-                templateUrl: 'templates/chart_5.html'
+                templateUrl: 'templates/chart_5.html',
+                controller: 'simpleAuthChecker'
             }
         }
     })
@@ -75,7 +85,8 @@ angular.module('app.routes', ['auth0.lock', 'angular-jwt', 'ui.router'])
         url: '/chart_6',
         views: {
             'side-menu21': {
-                templateUrl: 'templates/chart_6.html'
+                templateUrl: 'templates/chart_6.html',
+                controller: 'simpleAuthChecker'
             }
         }
     })
@@ -84,7 +95,8 @@ angular.module('app.routes', ['auth0.lock', 'angular-jwt', 'ui.router'])
         url: '/chart_7',
         views: {
             'side-menu21': {
-                templateUrl: 'templates/chart_7.html'
+                templateUrl: 'templates/chart_7.html',
+                controller: 'simpleAuthChecker'
             }
         }
     })
@@ -92,7 +104,8 @@ angular.module('app.routes', ['auth0.lock', 'angular-jwt', 'ui.router'])
     .state('menu', {
         url: '/side-menu21',
         templateUrl: 'templates/menu.html',
-        abstract:true
+        abstract:true,
+        controller: 'simpleAuthChecker'
     });
 
     lockProvider.init({

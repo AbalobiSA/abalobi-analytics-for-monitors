@@ -1,4 +1,18 @@
 <ion-view title="Home" id="home" class=" ">
-    <ion-content padding="true" class="has-header">Please select a chart from the menu
-        </ion-content>
+  <ion-content padding="true" class="has-header">
+    <p>Please select a chart from the menu.</p>
+    <!-- <p>ID Token: {{authData.id_token}}</p> -->
+    <hr>
+    <h3>Debug information</h3>
+    <div class="list">
+      <label class="item item-input">
+        <span class="input-label">ID Token</span>
+        <input type="text" ng-model="authData.id_token">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Other Secret</span>
+        <input type="text">
+      </label>
+    </div>
+  </ion-content>
 </ion-view>
