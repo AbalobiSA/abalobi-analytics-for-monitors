@@ -17,7 +17,10 @@
                 query: {
                   method: 'GET',
                   isArray: true,
-                  authorization: httpAuthString
+                  headers: {
+                      authorization: httpAuthString
+                  }
+
                 }
             });
         }
