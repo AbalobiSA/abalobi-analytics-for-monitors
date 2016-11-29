@@ -6,3 +6,4 @@ platforms/
 plugins/
 .env
 npm-debug.log
+git-push.bat
