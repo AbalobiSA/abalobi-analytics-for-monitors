@@ -1,6 +1,6 @@
 angular.module('app.routes', ['auth0.lock', 'angular-jwt', 'ui.router'])
 
-.config(function($stateProvider, $urlRouterProvider, lockProvider, $urlRouterProvider, jwtOptionsProvider) {
+.config(function($stateProvider, $urlRouterProvider, lockProvider, jwtOptionsProvider) {
 
     // Ionic uses AngularUI Router which uses the concept of states
     // Learn more here: https://github.com/angular-ui/ui-router
