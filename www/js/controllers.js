@@ -41,6 +41,7 @@ angular.module('app.controllers', [])
 
     $scope.login = function(){
         vm.authService.login();
+        authorizer.checkAuthentication($state, "menu.home");
     }
 
 })
