@@ -19,7 +19,7 @@
             'submissionsByMonthLocationModule', 'catchSpeciesByLocationModule',
             'sampleAveragesByLocationModule', 'utilsModule', 'monthlyCatchSpeciesByPermitTypeModule',
             'app.controllers', 'app.directives', 'app.routes', 'app.services',
-            'angular-jwt',
+            'angular-jwt', 'auth0.auth0',
             'ui.router'])
     .config(config);
 

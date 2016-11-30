@@ -1,6 +1,6 @@
-angular.module('app.routes', ['angular-jwt', 'ui.router'])
+angular.module('app.routes', ['angular-jwt', 'ui.router', 'auth0.auth0'])
 
-.config(function($stateProvider, $urlRouterProvider, jwtOptionsProvider) {
+.config(function($stateProvider, $urlRouterProvider, jwtOptionsProvider, angularAuth0Provider) {
 
     // Ionic uses AngularUI Router which uses the concept of states
     // Learn more here: https://github.com/angular-ui/ui-router
@@ -121,6 +121,10 @@ angular.module('app.routes', ['angular-jwt', 'ui.router'])
     //     }
     //   }
     // });
+    angularAuth0Provider.init({
+      clientID: 'FkmlnBqFVdI4psENfGQeSG5PNa96H3f4',
+      domain: 'app56729554.eu.auth0.com'
+    });
 
     // Configuration for angular-jwt
     jwtOptionsProvider.config({

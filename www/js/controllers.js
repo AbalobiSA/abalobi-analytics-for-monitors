@@ -33,13 +33,16 @@ angular.module('app.controllers', [])
     $scope.$on('$ionicView.enter', function() {
       var token = localStorage.getItem('id_token');
       if (token == null) {
-          vm.authService.login();
+          // vm.authService.login();
+          // authorizer.checkAuthentication($state, "menu.home");
       }
     });
 
     //Login button has been clicked:
     $scope.login = function(){
         vm.authService.login();
+        authorizer.checkAuthentication($state, "menu.home");
+
     }
 
 })

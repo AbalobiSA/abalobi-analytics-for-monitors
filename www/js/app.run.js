@@ -28,14 +28,19 @@
         StatusBar.styleDefault();
       }
 
+      authService.checkAuthOnRefresh();
+
+      // Process the auth token if it exists and fetch the profile
+      authService.authenticateAndGetProfile();
+
       // Register the authentication listener that is
       // set up in auth.service.js
-      authService.registerAuthenticationListener(function(loginToken){
-          // alert("SUCCESS");
-          console.log(JSON.stringify(loginToken, null, 4));
-      },function(){
-        // alert("ERROR");
-      });
+      // authService.registerAuthenticationListener(function(loginToken){
+      //     // alert("SUCCESS");
+      //     console.log(JSON.stringify(loginToken, null, 4));
+      // },function(){
+      //   // alert("ERROR");
+      // });
 
       //This event gets triggered on URL change
       $rootScope.$on('$locationChangeStart', authService.checkAuthOnRefresh);
