@@ -7,6 +7,8 @@
   "dependencies": {
     "auth0-lock": "^10.7.1",
     "angular-lock": "^1.0.5",
-    "angular-jwt": "^0.1.8"
+    "angular-jwt": "^0.1.8",
+    "auth0.js": "^7.5.0",
+    "angular-auth0": "^1.0.4"
   }
 }
