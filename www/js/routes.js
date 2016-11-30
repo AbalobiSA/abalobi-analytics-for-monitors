@@ -1,6 +1,6 @@
 angular.module('app.routes', ['auth0.lock', 'angular-jwt', 'ui.router'])
 
-.config(function($stateProvider, $urlRouterProvider, lockProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, lockProvider, $urlRouterProvider, jwtOptionsProvider) {
 
     // Ionic uses AngularUI Router which uses the concept of states
     // Learn more here: https://github.com/angular-ui/ui-router
@@ -110,7 +110,25 @@ angular.module('app.routes', ['auth0.lock', 'angular-jwt', 'ui.router'])
 
     lockProvider.init({
       clientID: 'FkmlnBqFVdI4psENfGQeSG5PNa96H3f4',
-      domain: 'app56729554.eu.auth0.com'
+      domain: 'app56729554.eu.auth0.com',
+      options: {
+        auth: {
+          redirect: false,
+          params: {
+            scope: 'openid',
+            device: 'Mobile device'
+          }
+        }
+      }
+    });
+
+    // Configuration for angular-jwt
+    jwtOptionsProvider.config({
+      tokenGetter: function() {
+        return localStorage.getItem('id_token');
+      },
+      whiteListedDomains: ['localhost'],
+      unauthenticatedRedirectPath: '/login'
     });
 
     $urlRouterProvider.otherwise('/login');

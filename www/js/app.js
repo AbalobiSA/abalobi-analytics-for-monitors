@@ -18,7 +18,9 @@
             'monthlyCatchSpecies', 'monthlyBoatDistributionModule', 'monthlyCatchSpeciesByBoatTypeModule',
             'submissionsByMonthLocationModule', 'catchSpeciesByLocationModule',
             'sampleAveragesByLocationModule', 'utilsModule', 'monthlyCatchSpeciesByPermitTypeModule',
-            'app.controllers', 'app.directives', 'app.routes', 'app.services', 'auth0.lock', 'angular-jwt', 'ui.router'])
+            'app.controllers', 'app.directives', 'app.routes', 'app.services',
+            'auth0.lock', 'angular-jwt',
+            'ui.router'])
     .config(config);
 
     function config(){
