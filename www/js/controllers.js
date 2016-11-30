@@ -35,10 +35,9 @@ angular.module('app.controllers', [])
       if (token == null) {
           vm.authService.login();
       }
-
-        // authorizer.checkAuthentication();
     });
 
+    //Login button has been clicked:
     $scope.login = function(){
         vm.authService.login();
     }

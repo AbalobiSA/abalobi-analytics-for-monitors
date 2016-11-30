@@ -8,7 +8,7 @@
     .module('app')
     .service('authService', authService);
 
-  function authService(lock, authManager, $rootScope, jwtHelper) {
+  function authService($rootScope, authManager,  jwtHelper) {
 
      var userProfile = JSON.parse(localStorage.getItem('profile')) || {};
 
