@@ -23,6 +23,7 @@
     function registerAuthenticationListener(success, error) {
       lock.on('authenticated', function (authResult) {
         localStorage.setItem('id_token', authResult.idToken);
+        localStorage.setItem('allAuthData', JSON.stringify(authResult, null, 4));
         authManager.authenticate();
         success(authResult);
       });

@@ -1,11 +1,26 @@
 <ion-view title="Home" id="home" class=" ">
   <ion-content padding="true" class="has-header">
-    <p>Please select a chart from the menu.</p>
+
+
+
+
+    <div class="home-screen-container">
+      <h1 class="text-center">Abalobi Monitors</h1>
+      <h3 class="username">Logged in as: {{username}}</h3>
+      <p class="text-center">Please select a chart from the menu.</p>
+
+      <ion-list>
+        <!-- <ion-checkbox ng-model="debugShow">Show debug information</ion-checkbox> -->
+      </ion-list>
+      <pre ng-show="debugShow">{{actualAuth}}</pre>
+    </div>
+
     <!-- <p>ID Token: {{authData.id_token}}</p> -->
-    <hr>
+    <!-- <hr>
     <h3>Debug information</h3>
     <div class="list">
       <label class="item item-input">
+
         <span class="input-label">ID Token</span>
         <input type="text" ng-model="authData.id_token">
       </label>
@@ -13,6 +28,14 @@
         <span class="input-label">Other Secret</span>
         <input type="text">
       </label>
-    </div>
+    </div> -->
+    <!-- <div class="container"> -->
+
+
+
+
+
+    <!-- </div> -->
+
   </ion-content>
 </ion-view>

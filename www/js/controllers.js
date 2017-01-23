@@ -59,7 +59,12 @@ angular.module('app.controllers', [])
 
     $scope.$on('$ionicView.enter', function() {
         authorizer.checkAuthentication($state);
+        $scope.actualAuth = localStorage.getItem('allAuthData');
+        // $scope.actualAuth = JSON.stringify(localStorage.getItem('allAuthData'), null, 4);
         $scope.authData.id_token = localStorage.getItem('id_token');
+        $scope.profilePicture = JSON.parse($scope.actualAuth).idTokenPayload.picture;
+        $scope.username = JSON.parse($scope.actualAuth).idTokenPayload.email
+
 
     });
 

@@ -47,3 +47,28 @@
     left: 10px;
     top:10px
 }
+.home-screen-container{
+  /*margin-top: 60px;*/
+}
+.profilePicture{
+    height: 60px;
+    width: auto;
+}
+.profilePictureDiv{
+  /*position: absolute;*/
+  display: inline-block;
+  /*float: left;*/
+
+  /*right: 12px;*/
+  /*top: 12px;*/
+  margin-left: 0px;
+}
+.float-info{
+  display: table-cell
+  /*float: left;*/
+}
+.username{
+  line-height: 60px;
+  text-align: center;
+  vertical-align: middle;
+}
