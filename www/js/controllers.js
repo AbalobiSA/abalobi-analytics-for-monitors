@@ -88,7 +88,7 @@ angular.module('app.controllers', [])
 
     $ionicLoading.show({
         template: 'Loading...'
-    })
+    });
 
 
 
@@ -100,12 +100,12 @@ angular.module('app.controllers', [])
 
         }).success(function(data) {
 
-            $scope.data = angular.copy((data))
+            $scope.data = angular.copy((data));
             $ionicLoading.hide()
         })
         .error(function(data) {
-            $ionicLoading.hide()
-            alert("Error")
+            $ionicLoading.hide();
+            alert("Error");
             console.log('Error: ' + data);
         });
 })
@@ -121,7 +121,7 @@ angular.module('app.controllers', [])
     });
     $ionicLoading.show({
         template: 'Loading...'
-    })
+    });
 
     $http({
             method: 'GET',
@@ -132,12 +132,12 @@ angular.module('app.controllers', [])
 
         }).success(function(data) {
 
-            $scope.data = angular.copy(data)
+            $scope.data = angular.copy(data);
             $ionicLoading.hide()
         })
         .error(function(data) {
-            $ionicLoading.hide()
-            alert("Error")
+            $ionicLoading.hide();
+            alert("Error");
             console.log('Error: ' + data);
         });
 
@@ -154,7 +154,7 @@ angular.module('app.controllers', [])
 
     $ionicLoading.show({
         template: 'Loading...'
-    })
+    });
 
     $http({
             method: 'GET',
@@ -165,14 +165,14 @@ angular.module('app.controllers', [])
 
         }).success(function(data) {
 
-            JSON.stringify(data)
-            $scope.data = angular.copy(data)
+            JSON.stringify(data);
+            $scope.data = angular.copy(data);
             $ionicLoading.hide()
         })
         .error(function(data) {
-            $ionicLoading.hide()
-            alert("Error")
+            $ionicLoading.hide();
+            alert("Error");
             console.log('Error: ' + data);
         });
 
-})
+});
