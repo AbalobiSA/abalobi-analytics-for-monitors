@@ -110,13 +110,14 @@ angular.module('app.routes', ['auth0.lock', 'angular-jwt', 'ui.router'])
 
     lockProvider.init({
       clientID: 'FkmlnBqFVdI4psENfGQeSG5PNa96H3f4',
-      domain: 'app56729554.eu.auth0.com',
-      options: {
-        auth: {
-          responseType: 'id_token',
-          params: {scope: 'openid profile'}
-        }
-      }
+      domain: 'app56729554.eu.auth0.com'
+      // ,
+      // options: {
+      //   auth: {
+      //     responseType: 'id_token',
+      //     params: {scope: 'openid profile'}
+      //   }
+      // }
     });
 
     $urlRouterProvider.otherwise('/login');
