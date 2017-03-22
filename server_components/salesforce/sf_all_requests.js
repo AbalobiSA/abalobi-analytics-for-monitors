@@ -31,6 +31,9 @@ function allObject(app){
 
         var query = determineQuery(req.query.id, req.query.param, GLOBAL_QUERY_LIMIT);
 
+        console.log("\n\nLOGGING QUERY: " );
+        console.log(query + "\n\n");
+
         createQuery(query, function(res) {
             var sendMeBack = {};
 
@@ -56,6 +59,9 @@ function singleObject(app){
         // console.log("====================================");
         // res.send("This is successful!");
         var query = "SELECT SOMETHING FROM SOMETHING_ELSE WHERE Id = '" + req.params.Id + "'";
+
+
+
         createQuery(query, function(res){
 
             var sendMeBack = {};
@@ -159,6 +165,8 @@ function determineQuery(query_name, query_params, query_limit){
             "ORDER BY landing_site__c, year_month, species__c, permit_type;"
     } else if (query_name == "total_boat_types_by_month") {
         //TODO: NOte that either main_fisher_id__c (abalobi-registered fisher) OR main_fisher_other__c (non-registered) will be populated, not both)
+
+        //TODO: $CARL - do this query
         query = "SELECT date_trunc('month', odk_date__c)+interval '3 hour' AS year_month, " +
             "landing_site__c, coalesce(boat_type__c, 'unknown') as boat_type, COUNT(*) " +
             "FROM salesforce.ablb_monitor_trip__c " +
@@ -167,6 +175,7 @@ function determineQuery(query_name, query_params, query_limit){
             "GROUP BY year_month, landing_site__c, boat_type__c " +
             "ORDER BY year_month, landing_site__c LIMIT " + queryLimit + ";"
     } else if (query_name == "submissions_by_month_by_location") {
+        //TODO: $CARL - do this query
         query = "SELECT date_trunc('month', odk_date__c)+interval '3 hour' AS year_month, landing_site__c, COUNT(*) " +
             "FROM salesforce.ablb_monitor_day__c " +
             "GROUP BY year_month, landing_site__c " +

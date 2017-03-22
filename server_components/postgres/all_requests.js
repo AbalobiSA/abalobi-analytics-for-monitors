@@ -187,6 +187,7 @@ function createRequests() {
 
         pool.query(query)
             .then(result => {
+                console.log("TECHAIROS DEBUGGING HERE: ");
                 debugLog("start" + JSON.stringify(result, null, 3));
                 return result.rows;
             })
