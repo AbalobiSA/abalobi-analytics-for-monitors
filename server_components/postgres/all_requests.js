@@ -18,7 +18,8 @@ var DATABASE_URL, DEBUG_LOG_SQL;
 
 if (!GLOBAL_SETTINGS.USE_LOCAL_SECRETS) {
     DATABASE_URL = dbSecrets.DB_URL;
-    DEBUG_LOG_SQL = process.env.DEBUG_LOG_SQL;
+    // DEBUG_LOG_SQL = process.env.DEBUG_LOG_SQL;
+    DEBUG_LOG_SQL = true;
 } else {
     DATABASE_URL = localSecrets.DB_URL;
     DEBUG_LOG_SQL = localSecrets.DEBUG_LOG_SQL;
@@ -187,8 +188,8 @@ function createRequests() {
 
         pool.query(query)
             .then(result => {
-                console.log("TECHAIROS DEBUGGING HERE: ");
-                debugLog("start" + JSON.stringify(result, null, 3));
+                var logMe = "TECHAIROS DEBUGGING HERE: \n";
+                debugLog(logMe + "start" + JSON.stringify(result, null, 3));
                 return result.rows;
             })
             .then(rows => {
