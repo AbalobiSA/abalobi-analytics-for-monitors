@@ -7,3 +7,5 @@ plugins/
 .env
 npm-debug.log
 git-push.bat
+secrets_local.json
+
