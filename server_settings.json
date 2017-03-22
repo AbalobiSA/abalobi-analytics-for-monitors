@@ -1,3 +1,5 @@
 {
-  "USE_LOCAL_SECRETS" : false
+    "USE_LOCAL_SECRETS" : false,
+    "USE_SALESFORCE_REQUESTS" : false,
+    "USE_LOCAL_SALESFORCE_CREDENTIALS" : false
 }

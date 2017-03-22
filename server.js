@@ -65,7 +65,17 @@ app.use('/api/get', authenticate);
 
 //Import modules
 var pg_queries = require("./server_components/postgres/all_requests.js");
-pg_queries.init(app);
+var sf_queries = require("./server_components/salesforce/sf_all_requests.js");
+
+if (GLOBAL_SETTINGS.USE_SALESFORCE_REQUESTS === true){
+    sf_queries.init(app);
+} else{
+    pg_queries.init(app);
+}
+
+
+
+
 
 //Run the server
 app.listen(app.get('port'), function() {
