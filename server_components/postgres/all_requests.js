@@ -92,11 +92,11 @@ function createRequests() {
             }
             query = "SELECT date_trunc('month', odk_date__c)+ interval '3 hours' AS year_month, " +
                 "species__c, landing_site__c, SUM(" + columnName + ") as " + req.query.param + " " +
-                "FROM salesforce.'Ablb_Monitor_Catch__c' " +
-                "INNER JOIN salesforce.'Ablb_Monitor_Trip__c' " +
-                "ON salesforce.'Ablb_Monitor_Trip__c'.odk_uuid__c = salesforce.'Ablb_Monitor_Catch__c'.odk_parent_uuid__c " +
-                "INNER JOIN salesforce.'Ablb_Monitor_Day__c' " +
-                "ON salesforce.'Ablb_Monitor_Day__c'.odk_uuid__c = salesforce.'Ablb_Monitor_Trip__c'.odk_parent_uuid__c " +
+                "FROM salesforce.\"Ablb_Monitor_Catch__c\" " +
+                "INNER JOIN salesforce.\"Ablb_Monitor_Trip__c\" " +
+                "ON salesforce.\"Ablb_Monitor_Trip__c\".odk_uuid__c = salesforce.\"Ablb_Monitor_Catch__c\".odk_parent_uuid__c " +
+                "INNER JOIN salesforce.\"Ablb_Monitor_Day__c\" " +
+                "ON salesforce.\"Ablb_Monitor_Day__c\".odk_uuid__c = salesforce.\"Ablb_Monitor_Trip__c\".odk_parent_uuid__c " +
                 "WHERE " + columnName + " IS NOT NULL " +
                 "GROUP BY year_month, landing_site__c, species__c " +
                 "ORDER BY year_month, landing_site__c, species__c DESC LIMIT " + queryLimit + ";"
@@ -108,11 +108,11 @@ function createRequests() {
             }
             query = "SELECT date_trunc('month', odk_date__c)+ interval '3 hours' AS year_month, " +
                 "species__c, SUM(" + columnName + ") as " + req.query.param + " " +
-                "FROM salesforce.'Ablb_Monitor_Catch__c' " +
-                "INNER JOIN salesforce.'Ablb_Monitor_Trip__c' " +
-                "ON salesforce.'Ablb_Monitor_Trip__c'.odk_uuid__c = salesforce.'Ablb_Monitor_Catch__c'.odk_parent_uuid__c " +
-                "INNER JOIN salesforce.'Ablb_Monitor_Day__c' " +
-                "ON salesforce.'Ablb_Monitor_Day__c'.odk_uuid__c = salesforce.'Ablb_Monitor_Trip__c'.odk_parent_uuid__c " +
+                "FROM salesforce.\"Ablb_Monitor_Catch__c\" " +
+                "INNER JOIN salesforce.\"Ablb_Monitor_Trip__c\" " +
+                "ON salesforce.\"Ablb_Monitor_Trip__c\".odk_uuid__c = salesforce.\"Ablb_Monitor_Catch__c\".odk_parent_uuid__c " +
+                "INNER JOIN salesforce.\"Ablb_Monitor_Day__c\" " +
+                "ON salesforce.\"Ablb_Monitor_Day__c\".odk_uuid__c = salesforce.\"Ablb_Monitor_Trip__c\".odk_parent_uuid__c " +
                 "WHERE " + columnName + " IS NOT NULL " +
                 "GROUP BY year_month, species__c " +
                 "ORDER BY year_month, species__c DESC LIMIT " + queryLimit + ";"
@@ -124,11 +124,11 @@ function createRequests() {
             }
             query = "SELECT date_trunc('month', odk_date__c) + interval '3 hours' AS year_month, landing_site__c, " +
                 "species__c, coalesce(boat_type__c, 'unknown') as boat_type,  " +
-                "SUM(" + columnName + ") as " + req.query.param + " FROM salesforce.'Ablb_Monitor_Catch__c' " +
-                "INNER JOIN salesforce.'Ablb_Monitor_Trip__c' " +
-                "ON salesforce.'Ablb_Monitor_Trip__c'.odk_uuid__c = salesforce.'Ablb_Monitor_Catch__c'.odk_parent_uuid__c " +
-                "INNER JOIN salesforce.'Ablb_Monitor_Day__c' " +
-                "ON salesforce.'Ablb_Monitor_Day__c'.odk_uuid__c = salesforce.'Ablb_Monitor_Trip__c'.odk_parent_uuid__c " +
+                "SUM(" + columnName + ") as " + req.query.param + " FROM salesforce.\"Ablb_Monitor_Catch__c\" " +
+                "INNER JOIN salesforce.\"Ablb_Monitor_Trip__c\" " +
+                "ON salesforce.\"Ablb_Monitor_Trip__c\".odk_uuid__c = salesforce.\"Ablb_Monitor_Catch__c\".odk_parent_uuid__c " +
+                "INNER JOIN salesforce.\"Ablb_Monitor_Day__c\" " +
+                "ON salesforce.\"Ablb_Monitor_Day__c\".odk_uuid__c = salesforce.\"Ablb_Monitor_Trip__c\".odk_parent_uuid__c " +
                 "WHERE " + columnName + " IS NOT NULL " +
                 "GROUP BY landing_site__c, year_month, species__c, boat_type__c " +
                 "ORDER BY landing_site__c, year_month, species__c, boat_type__c LIMIT " + queryLimit + ";"
@@ -140,11 +140,11 @@ function createRequests() {
             }
             query = "SELECT date_trunc('month', odk_date__c) + interval '3 hours' AS year_month, landing_site__c, " +
                 "species__c, coalesce(main_fisher_other_permit_type__c, 'no_permit') as permit_type, " +
-                "SUM(" + columnName + ") as " + req.query.param + " FROM salesforce.'Ablb_Monitor_Catch__c' " +
-                "INNER JOIN salesforce.'Ablb_Monitor_Trip__c' " +
-                "ON salesforce.'Ablb_Monitor_Trip__c'.odk_uuid__c = salesforce.'Ablb_Monitor_Catch__c'.odk_parent_uuid__c " +
-                "INNER JOIN salesforce.'Ablb_Monitor_Day__c' " +
-                "ON salesforce.'Ablb_Monitor_Day__c'.odk_uuid__c = salesforce.'Ablb_Monitor_Trip__c'.odk_parent_uuid__c " +
+                "SUM(" + columnName + ") as " + req.query.param + " FROM salesforce.\"Ablb_Monitor_Catch__c\" " +
+                "INNER JOIN salesforce.\"Ablb_Monitor_Trip__c\" " +
+                "ON salesforce.\"Ablb_Monitor_Trip__c\".odk_uuid__c = salesforce.\"Ablb_Monitor_Catch__c\".odk_parent_uuid__c " +
+                "INNER JOIN salesforce.\"Ablb_Monitor_Day__c\" " +
+                "ON salesforce.\"Ablb_Monitor_Day__c\".odk_uuid__c = salesforce.\"Ablb_Monitor_Trip__c\".odk_parent_uuid__c " +
                 "WHERE " + columnName + " IS NOT NULL " +
                 "GROUP BY landing_site__c, year_month, species__c, permit_type " +
                 "ORDER BY landing_site__c, year_month, species__c, permit_type;"
@@ -152,35 +152,35 @@ function createRequests() {
             //TODO: NOte that either main_fisher_id__c (abalobi-registered fisher) OR main_fisher_other__c (non-registered) will be populated, not both)
             query = "SELECT date_trunc('month', odk_date__c)+interval '3 hour' AS year_month, " +
                 "landing_site__c, coalesce(boat_type__c, 'unknown') as boat_type, COUNT(*) " +
-                "FROM salesforce.'Ablb_Monitor_Trip__c' " +
-                "INNER JOIN salesforce.'Ablb_Monitor_Day__c' ON " +
-                "salesforce.'Ablb_Monitor_Trip__c'.parent_day__c = salesforce.'Ablb_Monitor_Day__c'.sfid " +
+                "FROM salesforce.\"Ablb_Monitor_Trip__c\" " +
+                "INNER JOIN salesforce.\"Ablb_Monitor_Day__c\" ON " +
+                "salesforce.\"Ablb_Monitor_Trip__c\".parent_day__c = salesforce.\"Ablb_Monitor_Day__c\".sfid " +
                 "GROUP BY year_month, landing_site__c, boat_type__c " +
                 "ORDER BY year_month, landing_site__c LIMIT " + queryLimit + ";"
         } else if (req.query.id == "submissions_by_month_by_location") {
             query = "SELECT date_trunc('month', odk_date__c)+interval '3 hour' AS year_month, landing_site__c, COUNT(*) " +
-                "FROM salesforce.'Ablb_Monitor_Day__c' " +
+                "FROM salesforce.\"Ablb_Monitor_Day__c\" " +
                 "GROUP BY year_month, landing_site__c " +
                 "ORDER BY year_month, landing_site__c LIMIT " + queryLimit + ";"
         } else if (req.query.id == "samples_query") {
             if (req.query.param == "weight_avg") {
-                columnName = "salesforce.'Ablb_Monitor_Sample__c'.weight_kg__c";
+                columnName = "salesforce.\"Ablb_Monitor_Sample__c\".weight_kg__c";
             } else if (req.query.param == "length_avg") {
-                columnName = "salesforce.'Ablb_Monitor_Sample__c'.length_cm__c";
+                columnName = "salesforce.\"Ablb_Monitor_Sample__c\".length_cm__c";
             }
             query = "SELECT date_trunc('month', odk_date__c) + interval '3 hours' AS year_month, " +
-                "landing_site__c, salesforce.'Ablb_Monitor_Sample__c'.species__c, " +
+                "landing_site__c, salesforce.\"Ablb_Monitor_Sample__c\".species__c, " +
                 "AVG(" + columnName + ") as " + req.query.param + " " +
-                "FROM salesforce.'Ablb_Monitor_Sample__c' " +
-                "INNER JOIN salesforce.'Ablb_Monitor_Catch__c' " +
-                "ON salesforce.'Ablb_Monitor_Catch__c'.odk_uuid__c = salesforce.'Ablb_Monitor_Sample__c'.odk_parent_uuid__c " +
-                "INNER JOIN salesforce.'Ablb_Monitor_Trip__c' " +
-                "ON salesforce.'Ablb_Monitor_Trip__c'.odk_uuid__c = salesforce.'Ablb_Monitor_Catch__c'.odk_parent_uuid__c " +
-                "INNER JOIN salesforce.'Ablb_Monitor_Day__c' " +
-                "ON salesforce.'Ablb_Monitor_Day__c'.odk_uuid__c = salesforce.'Ablb_Monitor_Trip__c'.odk_parent_uuid__c " +
+                "FROM salesforce.\"Ablb_Monitor_Sample__c\" " +
+                "INNER JOIN salesforce.\"Ablb_Monitor_Catch__c\" " +
+                "ON salesforce.\"Ablb_Monitor_Catch__c\".odk_uuid__c = salesforce.\"Ablb_Monitor_Sample__c\".odk_parent_uuid__c " +
+                "INNER JOIN salesforce.\"Ablb_Monitor_Trip__c\" " +
+                "ON salesforce.\"Ablb_Monitor_Trip__c\".odk_uuid__c = salesforce.\"Ablb_Monitor_Catch__c\".odk_parent_uuid__c " +
+                "INNER JOIN salesforce.\"Ablb_Monitor_Day__c\" " +
+                "ON salesforce.\"Ablb_Monitor_Day__c\".odk_uuid__c = salesforce.\"Ablb_Monitor_Trip__c\".odk_parent_uuid__c " +
                 "WHERE " + columnName + " > 0 " +
-                "GROUP BY landing_site__c, year_month, salesforce.'Ablb_Monitor_Sample__c'.species__c " +
-                "ORDER BY landing_site__c, year_month, salesforce.'Ablb_Monitor_Sample__c'.species__c DESC " +
+                "GROUP BY landing_site__c, year_month, salesforce.\"Ablb_Monitor_Sample__c\".species__c " +
+                "ORDER BY landing_site__c, year_month, salesforce.\"Ablb_Monitor_Sample__c\".species__c DESC " +
                 "LIMIT " + queryLimit + ";"
         }
 
@@ -191,7 +191,7 @@ function createRequests() {
             return target.replace(new RegExp(search, 'g'), replacement);
         };
 
-        query = query.replaceAll("salesforce.", "");
+        query = query.replaceAll("salesforce.", "public.");
 
 
 
