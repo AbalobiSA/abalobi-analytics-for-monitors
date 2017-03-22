@@ -1,4 +1,4 @@
-var DB_URL = process.env.DATABASE_URL
+var DB_URL = process.env.HEROKU_POSTGRESQL_JADE_URL;
 var useSSL = process.env.USE_SSL;
 
 module.exports = {

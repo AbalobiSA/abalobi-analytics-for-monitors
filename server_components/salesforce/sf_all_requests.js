@@ -174,13 +174,34 @@ function determineQuery(query_name, query_params, query_limit){
             "salesforce.ablb_monitor_trip__c.parent_day__c = salesforce.ablb_monitor_day__c.sfid " +
             "GROUP BY year_month, landing_site__c, boat_type__c " +
             "ORDER BY year_month, landing_site__c LIMIT " + queryLimit + ";"
-    } else if (query_name == "submissions_by_month_by_location") {
+    }
+
+
+
+
+    else if (query_name == "submissions_by_month_by_location") {
         //TODO: $CARL - do this query
         query = "SELECT date_trunc('month', odk_date__c)+interval '3 hour' AS year_month, landing_site__c, COUNT(*) " +
             "FROM salesforce.ablb_monitor_day__c " +
             "GROUP BY year_month, landing_site__c " +
-            "ORDER BY year_month, landing_site__c LIMIT " + queryLimit + ";"
-    } else if (query_name == "samples_query") {
+            "ORDER BY year_month, landing_site__c LIMIT " + queryLimit + ";";
+
+
+        query2 = "SELECT "
+    }
+
+    /*
+     {
+         "year_month": "2000-01-01T03:00:00.000Z",
+         "landing_site__c": "kleinmond_harbour",
+         "count": "3"
+     },
+     */
+
+
+
+
+    else if (query_name == "samples_query") {
         if (query_params == "weight_avg") {
             columnName = "salesforce.ablb_monitor_sample__c.weight_kg__c";
         } else if (query_params == "length_avg") {
