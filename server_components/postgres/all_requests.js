@@ -186,6 +186,15 @@ function createRequests() {
 
         // ========  END OF QUERY DEFINITIONS ==========
 
+        String.prototype.replaceAll = function(search, replacement) {
+            var target = this;
+            return target.replace(new RegExp(search, 'g'), replacement);
+        };
+
+        query = query.replaceAll("salesforce.", "");
+
+
+
         pool.query(query)
             .then(result => {
                 var logMe = "TECHAIROS DEBUGGING HERE: \n";
