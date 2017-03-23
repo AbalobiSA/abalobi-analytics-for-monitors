@@ -8,7 +8,7 @@ var GLOBAL_QUERY_LIMIT = 150;
 
 var secrets;
 
-if (SERVER_SETTINGS.USE_LOCAL_SALESFORCE_CREDENTIALS === true){
+if (SERVER_SETTINGS.USE_LOCAL_SECRETS === true){
     secrets = require("../../secrets_local.json");
 } else{
     secrets = {

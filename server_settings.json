@@ -1,8 +1,7 @@
 {
+    "COMMENT 0": "Credential Settings",
     "USE_LOCAL_SECRETS" : false,
-    "COMMENT 0": "General Settings",
+    "COMMENT 1": "General Settings",
     "USE_SALESFORCE_REQUESTS" : false,
-    "USE_OLD_PG_DATABASE" : true,
-    "COMMENT 2": "Salesforce Settings",
-    "USE_LOCAL_SALESFORCE_CREDENTIALS" : false
+    "USE_OLD_PG_DATABASE" : false
 }
