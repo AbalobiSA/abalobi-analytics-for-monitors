@@ -4,5 +4,5 @@
     "COMMENT 1": "General Settings",
     "USE_SALESFORCE_REQUESTS" : false,
     "USE_OLD_PG_DATABASE" : false,
-    "DATABASE_QUERY_LIMIT" : 10000
+    "DATABASE_QUERY_LIMIT" : 1500
 }
