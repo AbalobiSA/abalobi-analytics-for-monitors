@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    
+
     angular.module('utilsModule')
         .service('SpeciesUtil', function() {
             return {
@@ -34,7 +34,15 @@
                 //TODO doesn't actually belong here, didn't want to create a new service for 1 method
                 // truncates the date received from DB response to monthly precision
                 truncDateToMonth: function (info) {
-                    info.month = info.year_month.substring(0, 7);
+                    // console.log("DEBUG OUTPUT:\n" +
+                        // "Logging info: " + JSON.stringify(info, null, 4));
+                    if (checkExists(info.year_month)){
+                        info.month = info.year_month.substring(0, 7);
+                    }
+
+                    function checkExists(input){
+                        return (input !== null && input !== undefined && input !== "");
+                    }
                     return info;
                 }
             }

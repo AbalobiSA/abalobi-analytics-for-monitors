@@ -65,12 +65,17 @@ app.use('/api/get', authenticate);
 
 //Import modules
 var pg_queries = require("./server_components/postgres/all_requests.js");
+var pg_old_queries = require("./server_components/postgres/old_requests.js");
 var sf_queries = require("./server_components/salesforce/sf_all_requests.js");
 
-if (GLOBAL_SETTINGS.USE_SALESFORCE_REQUESTS === true){
-    sf_queries.init(app);
+if (GLOBAL_SETTINGS.USE_SALESFORCE_REQUESTS === false){
+    if (GLOBAL_SETTINGS.USE_OLD_PG_DATABASE === true){
+        pg_old_queries.init(app);
+    } else{
+        pg_queries.init(app);
+    }
 } else{
-    pg_queries.init(app);
+    sf_queries.init(app);
 }
 
 
