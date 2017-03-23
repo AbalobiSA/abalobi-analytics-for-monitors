@@ -1,6 +1,6 @@
 {
     "USE_LOCAL_SECRETS" : false,
-    "COMMENT 0": "General Settings"
+    "COMMENT 0": "General Settings",
     "USE_SALESFORCE_REQUESTS" : false,
     "USE_OLD_PG_DATABASE" : true,
     "COMMENT 2": "Salesforce Settings",
