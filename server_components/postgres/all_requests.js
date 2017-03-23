@@ -71,7 +71,7 @@ function createRequests() {
         var query = null; // =  client.query('SELECT * FROM salesforce.'ablb_monitor_log__c'')
 
         //Global query limt
-        queryLimit = 150;
+        queryLimit = GLOBAL_SETTINGS.DATABASE_QUERY_LIMIT;
 
         debugLog(req.query);
 

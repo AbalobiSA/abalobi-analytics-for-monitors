@@ -3,5 +3,6 @@
     "USE_LOCAL_SECRETS" : false,
     "COMMENT 1": "General Settings",
     "USE_SALESFORCE_REQUESTS" : false,
-    "USE_OLD_PG_DATABASE" : false
+    "USE_OLD_PG_DATABASE" : false,
+    "DATABASE_QUERY_LIMIT" : 10000
 }
