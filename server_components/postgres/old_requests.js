@@ -23,7 +23,7 @@ if (!GLOBAL_SETTINGS.USE_LOCAL_SECRETS) {
     DATABASE_URL = dbSecrets.DB_URL_OLD;
     DEBUG_LOG_SQL = process.env.DEBUG_LOG_SQL;
 } else {
-    DATABASE_URL = localSecrets.DB_URL;
+    DATABASE_URL = localSecrets.DB_URL_OLD;
     DEBUG_LOG_SQL = localSecrets.DEBUG_LOG_SQL;
 }
 
@@ -41,8 +41,16 @@ var config = {
     host: params.hostname,
     port: params.port,
     database: params.pathname.split('/')[1],
-    ssl: dbSecrets.useSSL
+    ssl: getSSLSetting()
 };
+
+function getSSLSetting(){
+    if (GLOBAL_SETTINGS.USE_LOCAL_SECRETS){
+        return localSecrets.useSSL;
+    } else{
+        return dbSecrets.useSSL;
+    }
+}
 
 var app;
 
