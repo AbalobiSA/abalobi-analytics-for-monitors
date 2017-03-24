@@ -49,7 +49,9 @@ angular.module('app.services', [])
                         // this callback will be called asynchronously
                         // when the response is available
                         console.log("SUCCESS: " + response.status);
-                        $state.go("menu.home");
+                        if (locationString){
+                            $state.go(locationString);
+                        }
                     }, function errorCallback(response) {
                         // called asynchronously if an error occurs
                         // or server returns response with an error status.
