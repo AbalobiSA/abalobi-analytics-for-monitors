@@ -61,12 +61,12 @@ angular.module('app.services', [])
 
 
 
-                    if (locationString === null) {
-                        //$state.go("menu.home");
-                    }
-                    else {
-                        $state.go(locationString);
-                    }
+                    // if (locationString === null) {
+                    //     //$state.go("menu.home");
+                    // }
+                    // else {
+                    //     $state.go(locationString);
+                    // }
                 }
             }
         };
