@@ -80,7 +80,7 @@ if (GLOBAL_SETTINGS.USE_SALESFORCE_REQUESTS === false){
 }
 
 app.get('/authenticate', function(req, res) {
-
+    res.send("HELLO!");
 });
 
 
