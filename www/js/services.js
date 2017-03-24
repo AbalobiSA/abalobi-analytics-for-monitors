@@ -1,41 +1,71 @@
 angular.module('app.services', [])
 
-.factory('pgData', ['$http', function($http){
+    .factory('pgData', ['$http', function($http) {
 
-    var userinfo = {};
-    var info = {};
+        var userinfo = {};
+        var info = {};
 
-    userinfo.getInfo =  function () {
-        return info;
-    };
+        userinfo.getInfo = function() {
+            return info;
+        };
 
-    userinfo.updateInfo = function(data) {
-        angular.merge(info, data);
-        return info;
-    };
+        userinfo.updateInfo = function(data) {
+            angular.merge(info, data);
+            return info;
+        };
 
-    userinfo.clearInfo = function(){
-        var blank = {};
-        info = angular.copy(blank,info)
-    };
+        userinfo.clearInfo = function() {
+            var blank = {};
+            info = angular.copy(blank, info)
+        };
 
 
-    return userinfo
-}])
+        return userinfo
+    }])
 
-.factory('authorizer', ['$state', function($state){
-  return{
-      checkAuthentication: function($state, locationString){
-          var token = localStorage.getItem('id_token');
-          if (token == null) {
-              $state.go("login");
-          } else {
-            if (locationString == null){
-              //$state.go("menu.home");
-            } else{
-              $state.go(locationString);
+    .factory('authorizer', ['$state', '$http', function($state, $http) {
+        return {
+            checkAuthentication: function($state, locationString) {
+                var server_url = "https://abalobi-analytics-for-monitors.herokuapp.com/authenticate";
+                var token = localStorage.getItem('id_token');
+                if (token === null) {
+                    $state.go("login");
+                }
+                else {
+                    //Check the token against another server endpoint.
+                    //If there is a 401, the token is old. Clear it.
+
+                    var currentAuth = localStorage.getItem('id_token');
+                    // console.log("CURRENT ID TOKEN IS " + currentAuth);
+                    var httpAuthString = "Bearer " + currentAuth;
+
+                    $http({
+                        method: 'GET',
+                        url: server_url,
+                        headers: {
+                            authorization: httpAuthString
+                        }
+                    }).then(function successCallback(response) {
+                        // this callback will be called asynchronously
+                        // when the response is available
+                        $state.go(locationString);
+                    }, function errorCallback(response) {
+                        // called asynchronously if an error occurs
+                        // or server returns response with an error status.
+                        localStorage.setItem('id_token', null);
+                        token = null;
+                        $state.go("login");
+                    });
+
+
+
+                    if (locationString === null) {
+                        //$state.go("menu.home");
+                    }
+                    else {
+                        $state.go(locationString);
+                    }
+                }
             }
-          }
-      }
-    };
-}]);
+        };
+    }]);

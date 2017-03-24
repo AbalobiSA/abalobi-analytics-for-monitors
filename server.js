@@ -58,6 +58,7 @@ app.use(cors());
 
 //secure GET API
 app.use('/api/get', authenticate);
+app.use('/authenticate', authenticate);
 
 /*==================================================================
     Modules
@@ -78,6 +79,9 @@ if (GLOBAL_SETTINGS.USE_SALESFORCE_REQUESTS === false){
     sf_queries.init(app);
 }
 
+app.get('/authenticate', function(req, res) {
+
+});
 
 
 
